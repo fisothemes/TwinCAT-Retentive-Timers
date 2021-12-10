@@ -29,7 +29,7 @@ fbRTON : FB_RTON;
 
 **Implimentation**
 ```Pascal
-fbTON(IN := bStart, PT := tSet_Time, Q => bElapsed_Time_TON, ET => tElapsed_Time_TON)
+fbRTON(IN := bStart, PT := tSet_Time, Q => bElapsed_Time, ET => tElapsed_Time)
 ```
 
 - - - -
