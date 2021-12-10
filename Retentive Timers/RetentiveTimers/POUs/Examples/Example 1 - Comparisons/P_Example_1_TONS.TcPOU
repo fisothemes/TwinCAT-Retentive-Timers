@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="P_Example_1_TONS" Id="{8f5a3a44-9bf4-4874-a6db-394e8666faeb}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM P_Example_1_TONS
+VAR
+	bStart 				: BOOL; 
+	tSet_Time 			: TIME := T#10M; 
+	tElapsed_Time_TON, 
+	tElapsed_Time_RTON 	: TIME; 
+	bElapsed_Time_TON,
+	bElapsed_Time_RTON 	: BOOL; 
+	
+	fbTON 				: TON;
+	fbRTON 				: FB_RTON;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*
+NOTES:
+	-> Activate Configuration and START(F5) PLC Boot Project
+	-> Login (if you haven't already)
+	-> Make sure both timers are set for 10 mins 
+	-> Start the timers by writing a TRUE to the bStart variable
+	-> Let the timers run for a little bit
+	-> Notice that both elapsed time read are the same
+	-> STOP(Shift+F5) the PLC Boot Project for approx. 10-30secs
+	-> START(F5) the PLC Boot Project
+	
+	--> Notice the TON elapsed time (tElapsed_Time_TON) is 10-30secs ahead of the FB_RTON elapsed time (tElapsed_Time_RTON)
+	--> FB_RTON resumes from where it left-off if PLC is stopped. 
+*)
+
+fbTON(IN := bStart, PT := tSet_Time, 
+	  Q => bElapsed_Time_TON, ET => tElapsed_Time_TON);
+	  
+fbRTON(IN := bStart, PT := tSet_Time, 
+	  Q => bElapsed_Time_RTON, ET => tElapsed_Time_RTON);]]></ST>
+    </Implementation>
+    <LineIds Name="P_Example_1_TONS">
+      <LineId Id="5" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="54" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="68" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="70" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
