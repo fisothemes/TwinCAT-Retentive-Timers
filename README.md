@@ -98,10 +98,5 @@ fbRTimer : FB_RTimer;
 
 **Implimentation**
 ```Pascal
-<<<<<<< HEAD
 fbRTimer(bStart := bStart, bPause := bPause, tSet := tSet_Time, bElapsed => bElapsed_RTime, tElapsed => tElapsed_RTime);
 ```
-=======
-(* WIP *)
-```
->>>>>>> d776eb5a2493b6fc1d1fb742addbc8fd44a8a476
