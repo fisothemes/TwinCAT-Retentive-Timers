@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="P_Example_1_TOFs" Id="{a3bbce0e-b565-4357-b76e-4f9601694370}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM P_Example_1_TOFs
+VAR
+	bStart 				: BOOL; 
+	tSet_Time 			: TIME := T#10M; 
+	tElapsed_Time_TOF, 
+	tElapsed_Time_RTOF 	: TIME; 
+	bElapsed_Time_TOF,
+	bElapsed_Time_RTOF 	: BOOL; 
+	
+	fbTOF 				: TOF;
+	fbRTOF 				: FB_RTOF;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*
+NOTES:
+	-> Activate Configuration and START(F5) PLC Boot Project
+	-> Login (if you haven't already)
+	-> Make sure both timers are set for 10 mins 
+	-> Start the timers by writing a TRUE to the bStart variable
+	-> Let the timers run for a little bit
+	-> Notice that both elapsed time read are the same
+	-> STOP(Shift+F5) the PLC Boot Project for approx. 10-30secs
+	-> START(F5) the PLC Boot Project
+	
+	--> Notice the TON elapsed time (tElapsed_Time_TON) is 10-30secs ahead of the FB_RTOF elapsed time (tElapsed_Time_RTON)
+	--> FB_RTON resumes from where it left-off if PLC is stopped. 
+*)
+
+fbTOF(IN := bStart, PT := tSet_Time, 
+	  Q => bElapsed_Time_TOF, ET => tElapsed_Time_TOF);
+	  
+fbRTOF(IN := bStart, PT := tSet_Time, 
+	  Q => bElapsed_Time_RTOF, ET => tElapsed_Time_RTOF);]]></ST>
+    </Implementation>
+    <LineIds Name="P_Example_1_TOFs">
+      <LineId Id="194" Count="18" />
+      <LineId Id="70" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

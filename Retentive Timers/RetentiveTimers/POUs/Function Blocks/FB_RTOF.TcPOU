@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="FB_RTOF" Id="{87f5daad-7f7e-490d-952a-93e6f5384134}" SpecialFunc="None">
+    <Declaration><![CDATA[(* Retentive Timer Off-Delay - implements a turn-on delay that persists if PLC cycle is stopped. 
+When the input gets TRUE, first a certain TIME will run through UNTIL also the output gets TRUE. 
+*)
+FUNCTION_BLOCK FB_RTOF
+VAR_INPUT
+	IN 	: BOOL; // Starts timer with falling edge, resets timer with rising edge
+	PT 	: TIME; // Time to pass, before Q is set
+END_VAR
+VAR_OUTPUT
+	Q 	: BOOL; // is FALSE, PT seconds after IN had a falling edge
+	ET 	: TIME; // Elapsed time
+END_VAR
+VAR
+	g : F_TRIG;
+	bMeasure_Cycle_Time : BOOL;
+	tStart_Timestamp 	: TIME; 
+	arCycle_Time 		: ARRAY[0..1] OF TIME; // 0: Actual cycle time 1: Copy of cycle time
+	eState 				: (IDLE, READY, START);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[g(CLK := IN);
+CASE eState OF 
+	IDLE: 
+		Q := FALSE;
+		IF IN THEN eState := READY; END_IF
+		
+	READY:
+		Q := TRUE; ET := T#0MS;
+		IF NOT(IN) THEN // Start Cycle time measurement and move to next state
+			bMeasure_Cycle_Time := TRUE; 
+			tStart_Timestamp := TIME();
+			eState := START;  
+			END_IF
+	
+	START: 
+		IF bMeasure_Cycle_Time THEN 
+			arCycle_Time[0] := arCycle_Time[1] := TIME() - tStart_Timestamp;
+			bMeasure_Cycle_Time := FALSE; 
+			END_IF
+
+		THIS^.Increment(arCycle_Time[0], arCycle_Time[1]); 
+		ET := LIMIT(T#0MS, THIS^.Lerp(T#0MS, PT, TO_REAL(arCycle_Time[0])/TO_REAL(PT))-arCycle_Time[1], PT);
+
+		IF ET = PT THEN eState := IDLE; END_IF
+END_CASE]]></ST>
+    </Implementation>
+    <Method Name="Increment" Id="{7b36d870-5ab6-4877-8cf2-57f450b8b3d3}">
+      <Declaration><![CDATA[METHOD PRIVATE Increment
+VAR_INPUT
+	tValue 		: REFERENCE TO TIME; 
+	tIncrement 	: TIME;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[tValue := tValue + tIncrement; 
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Lerp" Id="{36a01201-4a8e-4415-91bf-222a16e52a06}">
+      <Declaration><![CDATA[// Linear interpolation (Lerp) - this method interpolates values between 2 time points.
+METHOD PRIVATE Lerp : TIME
+VAR_INPUT
+	tStart 	: TIME := T#0MS; 
+	tFinish : TIME;
+	fPercentage : REAL; // Value must be between 0 and 1
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Lerp(Start, Finish, Percentage) = Start + (Finish - Start)*Percentage
+Lerp := TO_TIME(TO_REAL(tStart) + TO_REAL(tFinish - tStart)*fPercentage);]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_RTOF">
+      <LineId Id="387" Count="0" />
+      <LineId Id="348" Count="2" />
+      <LineId Id="388" Count="0" />
+      <LineId Id="397" Count="0" />
+      <LineId Id="390" Count="0" />
+      <LineId Id="396" Count="0" />
+      <LineId Id="392" Count="3" />
+      <LineId Id="391" Count="0" />
+      <LineId Id="356" Count="10" />
+      <LineId Id="179" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_RTOF.Increment">
+      <LineId Id="16" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_RTOF.Lerp">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="P_Example_2" Id="{c9fa6007-1c07-48f6-85a4-bf08c2520e2c}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM P_Example_2
+VAR
+	bStart, bPause 		: BOOL; 
+	tSet_Time 			: TIME := T#1M; 
+	tElapsed_RTime 		: TIME; 
+	bElapsed_RTime 		: BOOL; 
+	fbRTimer 			: FB_RTimer;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbRTimer(bStart := bStart, bPause := bPause, tSet := tSet_Time,  
+		 bElapsed => bElapsed_RTime, tElapsed => tElapsed_RTime);]]></ST>
+    </Implementation>
+    <LineIds Name="P_Example_2">
+      <LineId Id="20" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

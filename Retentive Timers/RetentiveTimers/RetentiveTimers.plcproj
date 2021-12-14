@@ -20,10 +20,25 @@
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Examples\Example 1 - Comparisons\P_Example_1_TONS.TcPOU">
+    <Compile Include="POUs\Examples\Example 1 - Comparisons\P_Example_1.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Examples\Example 1 - Comparisons\P_Example_1_TONs.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Examples\Example 1 - Comparisons\P_Example_1_TOFs.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Examples\Example 2 - Pausable Timers\P_Example_2.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Function Blocks\FB_RTimer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Function Blocks\FB_RTON.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Function Blocks\FB_RTOF.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
@@ -34,6 +49,7 @@
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\Examples\Example 1 - Comparisons" />
+    <Folder Include="POUs\Examples\Example 2 - Pausable Timers" />
     <Folder Include="POUs\Function Blocks" />
     <Folder Include="POUs\Examples" />
     <Folder Include="VISUs" />
@@ -61,19 +77,19 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" />
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>

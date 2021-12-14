@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
-  <POU Name="P_Example_1_TONS" Id="{8f5a3a44-9bf4-4874-a6db-394e8666faeb}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM P_Example_1_TONS
+  <POU Name="P_Example_1_TONs" Id="{8f5a3a44-9bf4-4874-a6db-394e8666faeb}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM P_Example_1_TONs
 VAR
 	bStart 				: BOOL; 
 	tSet_Time 			: TIME := T#10M; 
@@ -37,7 +37,7 @@ fbTON(IN := bStart, PT := tSet_Time,
 fbRTON(IN := bStart, PT := tSet_Time, 
 	  Q => bElapsed_Time_RTON, ET => tElapsed_Time_RTON);]]></ST>
     </Implementation>
-    <LineIds Name="P_Example_1_TONS">
+    <LineIds Name="P_Example_1_TONs">
       <LineId Id="5" Count="0" />
       <LineId Id="50" Count="0" />
       <LineId Id="53" Count="0" />

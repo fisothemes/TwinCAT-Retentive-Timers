@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="FB_RTimer" Id="{1004f79f-de4c-44f5-b5f5-6e56778130b0}" SpecialFunc="None">
+    <Declaration><![CDATA[// Retentive Pausable Timer Function Block
+FUNCTION_BLOCK FB_RTimer
+VAR_INPUT
+    bStart 		: BOOL; // Start (TRUE) or Stop (FALSE) Timer 
+	bPause 		: BOOL; // Pause Timer (TRUE), Only Pauses if IN := TRUE
+    tSet		: TIME; // Set Time
+END_VAR
+VAR_OUTPUT
+    bElapsed 	: BOOL;	// Becomes TRUE after Set Time has passed
+    tElapsed 	: TIME; // Time Elapsed
+END_VAR
+VAR
+	eState		: (RUN, PAUSE);
+	eRTON_State : (IDLE, START);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE THIS^.eState OF 
+	RUN: //Run Timer
+		THIS^.RTON( IN := bStart, PT := tSet, Q => bElapsed, ET => tElapsed);
+END_CASE
+IF bPause THEN THIS^.eState := PAUSE; ELSE THIS^.eState := RUN; END_IF]]></ST>
+    </Implementation>
+    <Method Name="Increment" Id="{ce7e7cd6-a6fe-41a4-b4bb-db2d387620f6}">
+      <Declaration><![CDATA[METHOD PRIVATE Increment
+VAR_INPUT
+	tValue 		: REFERENCE TO TIME; 
+	tIncrement 	: TIME;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[tValue := tValue + tIncrement; 
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Lerp" Id="{737ae99d-00e2-4b0b-b724-3264f621580d}">
+      <Declaration><![CDATA[// Linear interpolation (Lerp) - this method interpolates values between 2 time points.
+METHOD PRIVATE Lerp : TIME
+VAR_INPUT
+	tStart 	: TIME := T#0MS; 
+	tFinish : TIME;
+	fPercentage : REAL; // Value must be between 0 and 1
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Lerp(Start, Finish, Percentage) = Start + (Finish - Start)*Percentage
+Lerp := TO_TIME(TO_REAL(tStart) + TO_REAL(tFinish - tStart)*fPercentage);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RTON" Id="{8fdf520b-b42e-4991-a1c3-be061a1796c3}">
+      <Declaration><![CDATA[(* Internal Retentive Timer On-Delay - implements a turn-on delay that persists if PLC cycle is stopped. 
+When the input gets TRUE, first a certain TIME will run through UNTIL also the output gets TRUE. 
+*)
+METHOD PRIVATE RTON
+VAR_INPUT
+	IN 	: BOOL; // Starts timer with rising edge, resets timer with falling edge
+	PT 	: TIME; // Time to pass, before Q is set
+END_VAR
+VAR_OUTPUT
+	Q 	: BOOL; // Is TRUE, PT seconds after IN had a rising edge
+	ET 	: TIME; // Elapsed time
+END_VAR
+VAR_INST
+	bMeasure_Cycle_Time : BOOL;
+	tStart_Timestamp 	: TIME; 
+	arCycle_Time 		: ARRAY[0..1] OF TIME; // 0: Actual cycle time 1: Copy of cycle time
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE THIS^.eRTON_State OF 
+	IDLE: 
+		ET := T#0MS; Q := FALSE;
+		IF IN THEN // Start Cycle time measurement and move to next state
+			bMeasure_Cycle_Time := TRUE; 
+			tStart_Timestamp := TIME();
+			THIS^.eRTON_State := START;  
+			END_IF
+	
+	START: 
+		IF bMeasure_Cycle_Time THEN 
+			arCycle_Time[0] := arCycle_Time[1] := TIME() - tStart_Timestamp;
+			bMeasure_Cycle_Time := FALSE; 
+			END_IF
+		IF NOT(Q) THEN 
+			THIS^.Increment(arCycle_Time[0], arCycle_Time[1]); 
+			ET := LIMIT(T#0MS, THIS^.Lerp(T#0MS, PT, TO_REAL(arCycle_Time[0])/TO_REAL(PT))-arCycle_Time[1], PT);
+			END_IF
+		IF NOT(IN) THEN THIS^.eRTON_State := IDLE; END_IF
+		Q := ET >= PT; 
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_RTimer">
+      <LineId Id="25" Count="2" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="35" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_RTimer.Increment">
+      <LineId Id="16" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_RTimer.Lerp">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_RTimer.RTON">
+      <LineId Id="22" Count="19" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

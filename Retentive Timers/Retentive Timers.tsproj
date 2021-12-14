@@ -16,7 +16,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{0F367A31-25E1-4309-B4DB-37DE0CA39889}" Name="RetentiveTimers" PrjFilePath="RetentiveTimers\RetentiveTimers.plcproj" TmcFilePath="RetentiveTimers\RetentiveTimers.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RetentiveTimers\RetentiveTimers.tmc">
 					<Name>RetentiveTimers Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
