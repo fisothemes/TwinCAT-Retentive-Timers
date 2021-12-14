@@ -1,6 +1,15 @@
 # TwinCAT-Retentive-Timers
-The Retentive Timer (RTO) is a function block that has been available on AB and Siemens PLCs but strangely has been missing on Beckhoff PLCs.
-An RTO is extremely useful for applications like tracking the length of time a PLC has been running or retaining persistent time.
+Standard library timers on TwinCAT count time by taking the difference between the current time from system timer and start time from system timer.
+While this is fine for most application, it is problematic for operations that require time to be retained even if the PLC is paused, stopped or turned off.
+For example, if a `TON` (Timer On-Delay) Timer is running and you stop the PLC Boot Project for a period of time, the `TON` will not resume from the point it was stopped.
+Instead it will skip time by the number of ms/secs/mins/hours it was stopped. 
+This makes it useless for applications such as tracking the length of time a PLC has been running or retaining persistent time.
+
+Retentive variants of the Standard library timers stop this from happen. They are based on PLC Task cycle time rather than system time. 
+This means they will simply stop counting when the PLC Task Cycle is stopped and will resume from where they left-off as soon as the task cycle picks up.
+All arguments behave in the same manner as those of the standard library. 
+
+To see an example of the differences between Retentive Standard Library Timers and Normal Standard Library Timer, download this project, run it and follow the instructions in `P_Example_1_TONs()`
 
 This project creates retentive variants of the standard library PLC timers:
 * TON - Timer On-Delay
@@ -11,10 +20,10 @@ This project creates retentive variants of the standard library PLC timers:
 **In this project the following will be implementated:**
 
 * 👍 FB_RTON    - Retentive Timer On-Delay
-* ⚡ FB_RTOF    - Retentive Timer Off-Delay 
+* 👍 FB_RTOF    - Retentive Timer Off-Delay 
 * ⚡ FB_RTP     - Retentive  Pulse Timer
 * ⚡ FB_Timer   - Pausable Timer
-* ⚡ FB_RTimer  - Retentive Pausable Timer
+* 👍 FB_RTimer  - Retentive Pausable Timer
 
 - - - -
 ### FB_RTON
@@ -34,16 +43,18 @@ fbRTON(IN := bStart, PT := tSet_Time, Q => bElapsed_Time, ET => tElapsed_Time)
 
 - - - -
 ### FB_RTOF
-Work-In-Progress will update once finished
 
 **Declaration:** 
 ```Pascal
-(* WIP *)
+(* <name of timer> : FB_RTOF *)
+
+// Declaring a Retentive Timer Off-Delay
+fbRTOF : FB_RTOF;
 ```
 
 **Implimentation**
 ```Pascal
-(* WIP *)
+fbTOF(IN := bStart, PT := tSet_Time, Q => bElapsed_Time_TOF, ET => tElapsed_Time_TOF)
 ```
 
 - - - -
@@ -76,14 +87,21 @@ Work-In-Progress will update once finished
 
 - - - -
 ### FB_RTimer
-Work-In-Progress will update once finished
 
 **Declaration:** 
 ```Pascal
-(* WIP *)
+(* <name of timer> : FB_RTimer *)
+
+// Declaring a Retentive Pausable Timer
+fbRTimer : FB_RTimer;
 ```
 
 **Implimentation**
 ```Pascal
+<<<<<<< HEAD
+fbRTimer(bStart := bStart, bPause := bPause, tSet := tSet_Time, bElapsed => bElapsed_RTime, tElapsed => tElapsed_RTime);
+```
+=======
 (* WIP *)
 ```
+>>>>>>> d776eb5a2493b6fc1d1fb742addbc8fd44a8a476
