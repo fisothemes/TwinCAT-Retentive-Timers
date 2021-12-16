@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
   <POU Name="FB_RTON" Id="{50e583b3-41fe-4456-b250-e2efdd8d33d7}" SpecialFunc="None">
-    <Declaration><![CDATA[(* Retentive Timer On-Delay - implements a turn-on delay that persists if PLC cycle is stopped. 
-When the input gets TRUE, first a certain TIME will run through UNTIL also the output gets TRUE. 
+    <Declaration><![CDATA[(* Retentive Timer On-Delay - implements a timer-on delay that persists if PLC cycle is stopped. 
+When the input gets TRUE, elapsed time ET will run until also the output Q becomes TRUE. 
 *)
 FUNCTION_BLOCK FB_RTON
 VAR_INPUT

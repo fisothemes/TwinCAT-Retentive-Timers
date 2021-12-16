@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="FB_Timer" Id="{4aa5f9f8-8152-4741-bf10-7f7d8f995ad2}" SpecialFunc="None">
+    <Declaration><![CDATA[// Pausable Timer Function Block
+FUNCTION_BLOCK FB_Timer
+VAR_INPUT
+    bStart 		: BOOL; // Start (TRUE) or Stop (FALSE) Timer 
+	bPause 		: BOOL; // Pause Timer (TRUE), Only Pauses if IN := TRUE
+    tSet		: TIME; // Set Time
+END_VAR
+VAR_OUTPUT
+    bElapsed 	: BOOL;	// Becomes TRUE after Set Time has passed
+    tElapsed 	: TIME; // Time Elapsed
+END_VAR
+VAR
+	fbTON 		: TON;
+	tPaused 	: TIME;
+	eState		: (START, PAUSE);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT(bStart) THEN tPaused := tElapsed := T#0MS; END_IF
+fbTON(PT := tSet - tPaused, Q => bElapsed);
+IF bPause THEN 
+	tPaused := fbTON.ET + tPaused; 
+	fbTON(IN := FALSE); 
+ELSE 
+	fbTON(IN := bStart); 
+	tElapsed := fbTON.ET + tPaused; 
+	END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Timer">
+      <LineId Id="45" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="50" Count="2" />
+      <LineId Id="54" Count="3" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

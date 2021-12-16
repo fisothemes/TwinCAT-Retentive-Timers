@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
-  <POU Name="FB_RTOF" Id="{87f5daad-7f7e-490d-952a-93e6f5384134}" SpecialFunc="None">
-    <Declaration><![CDATA[(* Retentive Timer Off-Delay - implements a timer-off delay that persists if PLC cycle is stopped. 
-When the input becomes FALSE after a TRUE, the elapsed time ET will run through until the output Q becomes TRUE. 
+  <POU Name="FB_RTP" Id="{d2cb9c23-61d1-4ce8-a8f9-116209596e46}" SpecialFunc="None">
+    <Declaration><![CDATA[(* Retentive Pulse Timer - implements a pulse time that persists if PLC cycle is stopped. 
+when the input becomes TRUE, the elapsed time ET will run for the set time PT and the output Q will becomes TRUE.  
 *)
-FUNCTION_BLOCK FB_RTOF
+FUNCTION_BLOCK FB_RTP
 VAR_INPUT
-	IN 	: BOOL; // Starts timer with falling edge, resets timer with rising edge
-	PT 	: TIME; // Time to pass, before Q is set
+        IN      : BOOL; // Trigger for Start of the Signal
+        PT      : TIME; // The length of the High-Signal in ms
 END_VAR
 VAR_OUTPUT
-	Q 	: BOOL; // is FALSE, PT seconds after IN had a falling edge
-	ET 	: TIME; // Elapsed time
+        Q       : BOOL; // The pulse
+        ET      : TIME; // The current phase of the High-Signal
 END_VAR
 VAR
 	bMeasure_Cycle_Time : BOOL;
@@ -23,17 +23,16 @@ END_VAR
     <Implementation>
       <ST><![CDATA[LBL_TOP: 
 CASE eState OF 
-	IDLE: 
-		IF IN THEN eState := READY; JMP LBL_TOP; END_IF
+	IDLE:
+		ET := T#0MS; Q := FALSE;
+		IF IN THEN eState := READY; Q := TRUE; JMP LBL_TOP; END_IF
+
+	READY: 
 		
-	READY:
-		Q := TRUE; ET := T#0MS;
-		IF NOT(IN) THEN // Start Cycle time measurement and move to next state
-			bMeasure_Cycle_Time := TRUE; 
-			tStart_Timestamp := TIME();
-			eState := START;  
-			END_IF
-	
+		bMeasure_Cycle_Time := Q := TRUE; 
+		tStart_Timestamp := TIME();
+		eState := START;  
+		
 	START: 
 		IF bMeasure_Cycle_Time THEN 
 			arCycle_Time[0] := arCycle_Time[1] := TIME() - tStart_Timestamp;
@@ -42,12 +41,11 @@ CASE eState OF
 
 		THIS^.Increment(arCycle_Time[0], arCycle_Time[1]); 
 		ET := LIMIT(T#0MS, THIS^.Lerp(T#0MS, PT, TO_REAL(arCycle_Time[0])/TO_REAL(PT))-arCycle_Time[1], PT);
-
-		IF (ET = PT) THEN Q := FALSE;  eState := IDLE; JMP LBL_TOP; END_IF
-		IF IN THEN ET := T#0MS; eState := IDLE;  JMP LBL_TOP;  END_IF
+		Q := ET < PT;
+		IF NOT(Q OR IN) THEN eState := IDLE; END_IF
 END_CASE]]></ST>
     </Implementation>
-    <Method Name="Increment" Id="{7b36d870-5ab6-4877-8cf2-57f450b8b3d3}">
+    <Method Name="Increment" Id="{55d1f2b0-3e68-4c97-985d-b57830ce6cd5}">
       <Declaration><![CDATA[METHOD PRIVATE Increment
 VAR_INPUT
 	tValue 		: REFERENCE TO TIME; 
@@ -58,7 +56,7 @@ END_VAR]]></Declaration>
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Lerp" Id="{36a01201-4a8e-4415-91bf-222a16e52a06}">
+    <Method Name="Lerp" Id="{b0fef7d9-678a-4cd9-a074-11650f082ba9}">
       <Declaration><![CDATA[// Linear interpolation (Lerp) - this method interpolates values between 2 time points.
 METHOD PRIVATE Lerp : TIME
 VAR_INPUT
@@ -72,24 +70,23 @@ END_VAR
 Lerp := TO_TIME(TO_REAL(tStart) + TO_REAL(tFinish - tStart)*fPercentage);]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_RTOF">
-      <LineId Id="417" Count="0" />
-      <LineId Id="348" Count="1" />
-      <LineId Id="388" Count="0" />
-      <LineId Id="421" Count="0" />
-      <LineId Id="390" Count="0" />
-      <LineId Id="416" Count="0" />
-      <LineId Id="392" Count="3" />
-      <LineId Id="391" Count="0" />
-      <LineId Id="356" Count="10" />
-      <LineId Id="420" Count="0" />
-      <LineId Id="179" Count="0" />
+    <LineIds Name="FB_RTP">
+      <LineId Id="71" Count="0" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="72" Count="1" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="68" Count="2" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="33" Count="9" />
+      <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_RTOF.Increment">
+    <LineIds Name="FB_RTP.Increment">
       <LineId Id="16" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_RTOF.Lerp">
+    <LineIds Name="FB_RTP.Lerp">
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>

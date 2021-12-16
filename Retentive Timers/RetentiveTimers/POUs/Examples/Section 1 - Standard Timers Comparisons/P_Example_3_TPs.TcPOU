@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="P_Example_3_TPs" Id="{ddb492f0-a851-4459-af23-713f05c8ba3f}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM P_Example_3_TPs
+VAR
+	bStart 				: BOOL; 
+	tSet_Time 			: TIME := T#10S; 
+	tElapsed_Time_TP, 
+	tElapsed_Time_RTP 	: TIME; 
+	bElapsed_Time_TP,
+	bElapsed_Time_RTP 	: BOOL; 
+	
+	fbTP 				: TP;
+	fbRTP 				: FB_RTP;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*
+NOTES:
+	-> Activate Configuration and START(F5) PLC Boot Project
+	-> Login (if you haven't already)
+	-> Make sure both timers are set for 10 mins 
+	-> Start the timers by writing a TRUE to the bStart variable
+	-> Let the timers run for a little bit
+	-> Notice that both elapsed time read are the same
+	-> STOP(Shift+F5) the PLC Boot Project for approx. 10-30secs
+	-> START(F5) the PLC Boot Project
+	
+	--> Notice the TP elapsed time (tElapsed_Time_TP) is 10-30secs ahead of the FB_RTOF elapsed time (tElapsed_Time_RTP)
+	--> FB_RTP resumes from where it left-off if PLC is stopped. 
+*)
+
+fbTP(IN := bStart, PT := tSet_Time, 
+	  Q => bElapsed_Time_TP, ET => tElapsed_Time_TP);
+	  
+fbRTP(IN := bStart, PT := tSet_Time, 
+	  Q => bElapsed_Time_RTP, ET => tElapsed_Time_RTP);]]></ST>
+    </Implementation>
+    <LineIds Name="P_Example_3_TPs">
+      <LineId Id="194" Count="18" />
+      <LineId Id="70" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

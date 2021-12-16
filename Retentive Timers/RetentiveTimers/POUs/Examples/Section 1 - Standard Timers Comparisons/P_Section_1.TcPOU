@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
-  <POU Name="P_Example_1" Id="{6b528a2e-6c61-400c-b708-26ec986ea447}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM P_Example_1
+  <POU Name="P_Section_1" Id="{6b528a2e-6c61-400c-b708-26ec986ea447}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM P_Section_1
 VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[P_Example_1_TONs();
-P_Example_1_TOFs();]]></ST>
+P_Example_2_TOFs();
+P_Example_3_TPs();]]></ST>
     </Implementation>
-    <LineIds Name="P_Example_1">
+    <LineIds Name="P_Section_1">
       <LineId Id="5" Count="1" />
+      <LineId Id="10" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

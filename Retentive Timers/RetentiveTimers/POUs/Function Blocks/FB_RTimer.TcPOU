@@ -17,11 +17,15 @@ VAR
 	eRTON_State : (IDLE, START);
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE THIS^.eState OF 
+      <ST><![CDATA[IF bPause THEN THIS^.eState := PAUSE; ELSE THIS^.eState := RUN; END_IF
+CASE THIS^.eState OF 
 	RUN: //Run Timer
-		THIS^.RTON( IN := bStart, PT := tSet, Q => bElapsed, ET => tElapsed);
+		THIS^.RTON(IN := bStart, PT := tSet, Q => bElapsed, ET => tElapsed);
+	PAUSE:
+		IF NOT(bStart) THEN THIS^.RTON(IN := FALSE, PT := tSet, Q => bElapsed, ET => tElapsed); END_IF
 END_CASE
-IF bPause THEN THIS^.eState := PAUSE; ELSE THIS^.eState := RUN; END_IF]]></ST>
+
+]]></ST>
     </Implementation>
     <Method Name="Increment" Id="{ce7e7cd6-a6fe-41a4-b4bb-db2d387620f6}">
       <Declaration><![CDATA[METHOD PRIVATE Increment
@@ -92,9 +96,12 @@ END_CASE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_RTimer">
+      <LineId Id="60" Count="0" />
       <LineId Id="25" Count="2" />
+      <LineId Id="56" Count="1" />
       <LineId Id="33" Count="0" />
-      <LineId Id="35" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="50" Count="0" />
     </LineIds>
     <LineIds Name="FB_RTimer.Increment">
       <LineId Id="16" Count="0" />

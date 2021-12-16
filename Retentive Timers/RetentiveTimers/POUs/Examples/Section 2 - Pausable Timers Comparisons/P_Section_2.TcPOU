@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="P_Section_2" Id="{c9fa6007-1c07-48f6-85a4-bf08c2520e2c}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM P_Section_2
+VAR
+	bStart, bPause 		: BOOL; 
+	tSet_Time 			: TIME := T#1M; 
+	tElapsed_Time,
+	tElapsed_RTime 		: TIME; 
+	bElapsed_Time,
+	bElapsed_RTime 		: BOOL; 
+	fbTimer 			: FB_Timer; 
+	fbRTimer 			: FB_RTimer;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*
+NOTES:
+	-> Activate Configuration and START(F5) PLC Boot Project
+	-> Login (if you haven't already)
+	-> Make sure both timers are set for 10 mins 
+	-> Start the timers by writing a TRUE to the bStart variable
+	-> Let the timers run for a little bit
+	-> Notice that both elapsed time read are the same
+	-> STOP(Shift+F5) the PLC Boot Project for approx. 10-30secs
+	-> START(F5) the PLC Boot Project
+	
+	--> Notice the FB_Timer's elapsed time (tElapsed_Time) is 10-30secs ahead of the FB_RTimer's elapsed time (tElapsed_RTime)
+	--> FB_RTimer resumes from where it left-off if PLC is stopped. 
+*)
+
+fbTimer(bStart := bStart, bPause := bPause, tSet := tSet_Time, 
+		bElapsed => bElapsed_Time, tElapsed => tElapsed_Time);
+fbRTimer(bStart := bStart, bPause := bPause, tSet := tSet_Time,  
+		 bElapsed => bElapsed_RTime, tElapsed => tElapsed_RTime);]]></ST>
+    </Implementation>
+    <LineIds Name="P_Section_2">
+      <LineId Id="57" Count="12" />
+      <LineId Id="55" Count="1" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="20" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

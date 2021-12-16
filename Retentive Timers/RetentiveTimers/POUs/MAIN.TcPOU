@@ -6,8 +6,8 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[P_Example_1();
-P_Example_2();]]></ST>
+      <ST><![CDATA[P_Section_1();
+P_Section_2();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="2" Count="0" />

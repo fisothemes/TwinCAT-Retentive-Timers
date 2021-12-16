@@ -21,8 +21,8 @@ This project creates retentive variants of the standard library PLC timers:
 
 * 👍 FB_RTON    - Retentive Timer On-Delay
 * 👍 FB_RTOF    - Retentive Timer Off-Delay 
-* ⚡ FB_RTP     - Retentive  Pulse Timer
-* ⚡ FB_Timer   - Pausable Timer
+* 👍 FB_RTP     - Retentive  Pulse Timer
+* 👍 FB_Timer   - Pausable Timer
 * 👍 FB_RTimer  - Retentive Pausable Timer
 
 - - - -
@@ -59,30 +59,34 @@ fbTOF(IN := bStart, PT := tSet_Time, Q => bElapsed_Time_TOF, ET => tElapsed_Time
 
 - - - -
 ### FB_RTP
-Work-In-Progress will update once finished
 
 **Declaration:** 
 ```Pascal
-(* WIP *)
+(* <name of timer> : FB_RTP *)
+
+// Declaring a Retentive Pulse Timer
+fbRTP : FB_RTP;
 ```
 
 **Implimentation**
 ```Pascal
-(* WIP *)
+fbRTP(IN := bStart, PT := tSet_Time, Q => bElapsed_Time_RTP, ET => tElapsed_Time_RTP);
 ```
 
 - - - -
 ### FB_Timer
-Work-In-Progress will update once finished
 
 **Declaration:** 
 ```Pascal
-(* WIP *)
+(* <name of timer> : FB_Timer *)
+
+// Declaring a Pausable Timer
+fbTimer : FB_Timer;
 ```
 
 **Implimentation**
 ```Pascal
-(* WIP *)
+fbTimer(bStart := bStart, bPause := bPause, tSet := tSet_Time, bElapsed => bElapsed_Time, tElapsed => tElapsed_Time);
 ```
 
 - - - -
