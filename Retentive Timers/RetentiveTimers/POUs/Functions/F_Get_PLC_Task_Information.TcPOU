@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="F_Get_PLC_Task_Information" Id="{1e739b67-625e-4e2f-aad8-9a0782d864fa}" SpecialFunc="None">
+    <Declaration><![CDATA[(* Gets the infomation of the task the function is currently called on.
+.. _More: https://infosys.beckhoff.com/english.php?content=../content/1033/globaldatatypes/714818699.html&id=
+*)
+FUNCTION F_Get_PLC_Task_Information : ST_PLC_TASK_INFORMATION
+VAR_INPUT
+END_VAR
+VAR
+	fbCurrent_Task_Index  	: GETCURTASKINDEX;
+	st_TaskInfo 			: PlcTaskSystemInfo;
+	stTask_Info 			: ST_PLC_TASK_INFORMATION;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbCurrent_Task_Index();
+st_TaskInfo 						:= TwinCAT_SystemInfoVarList._TaskInfo[fbCurrent_Task_Index.index];
+
+stTask_Info.AdsPort 				:= st_TaskInfo.AdsPort;
+stTask_Info.CycleCount 				:= st_TaskInfo.CycleCount;
+stTask_Info.CycleTime 				:= st_TaskInfo.CycleTime;
+stTask_Info.CycleTimeExceeded 		:= st_TaskInfo.CycleTimeExceeded;
+stTask_Info.DcTaskTime 				:= st_TaskInfo.DcTaskTime;
+stTask_Info.FirstCycle				:= st_TaskInfo.FirstCycle;
+stTask_Info.InCallAfterOutputUpdate := st_TaskInfo.InCallAfterOutputUpdate;
+stTask_Info.LastExecTime 			:= st_TaskInfo.LastExecTime;
+stTask_Info.ObjId 					:= st_TaskInfo.ObjId;
+stTask_Info.Priority 				:= st_TaskInfo.Priority;
+stTask_Info.RTViolation 			:= st_TaskInfo.RTViolation;
+stTask_Info.TaskName 				:= st_TaskInfo.TaskName;
+stTask_Info.tlCycleTime 			:= TO_LTIME(st_TaskInfo.CycleTime*100);
+stTask_Info.tCycleTime 				:= TO_TIME(stTask_Info.tlCycleTime);
+
+F_Get_PLC_Task_Information 		:= stTask_Info;]]></ST>
+    </Implementation>
+    <LineIds Name="F_Get_PLC_Task_Information">
+      <LineId Id="67" Count="17" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

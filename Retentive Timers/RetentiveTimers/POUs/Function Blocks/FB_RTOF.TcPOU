@@ -14,50 +14,29 @@ VAR_OUTPUT
 	ET 	: TIME; // Elapsed time
 END_VAR
 VAR
-	bMeasure_Cycle_Time : BOOL;
-	tStart_Timestamp 	: TIME; 
-	arCycle_Time 		: ARRAY[0..1] OF TIME; // 0: Actual cycle time 1: Copy of cycle time
-	eState 				: (IDLE, READY, START);
+	stPLC_Task_Info 	: ST_PLC_TASK_INFORMATION;
+	tAccumulator 		: TIME;
+	nLast_Cycle_Count 	: UDINT;
+	eState 				: (IDLE, RUN);
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[LBL_TOP: 
-CASE eState OF 
+CASE eState OF
 	IDLE: 
-		IF IN THEN eState := READY; JMP LBL_TOP; END_IF
-		
-	READY:
-		Q := TRUE; ET := T#0MS;
-		IF NOT(IN) THEN // Start Cycle time measurement and move to next state
-			bMeasure_Cycle_Time := TRUE; 
-			tStart_Timestamp := TIME();
-			eState := START;  
+		IF IN THEN Q := TRUE; tAccumulator := ET := T#0MS; eState := RUN; JMP LBL_TOP; END_IF
+	RUN:
+		stPLC_Task_Info := F_Get_PLC_Task_Information();
+		IF NOT(IN) AND ((nLast_Cycle_Count <> stPLC_Task_Info.CycleCount) OR nLast_Cycle_Count = 0) THEN 
+			Q := ET <> PT;
+			IF (ET >= PT) THEN Q := FALSE;  eState := IDLE; JMP LBL_TOP; END_IF
+			tAccumulator := tAccumulator + stPLC_Task_Info.tCycleTime; 
+			ET := LIMIT(T#0MS, THIS^.Lerp(T#0MS, PT, TO_REAL(tAccumulator)/TO_REAL(PT))-stPLC_Task_Info.tCycleTime, PT);
 			END_IF
-	
-	START: 
-		IF bMeasure_Cycle_Time THEN 
-			arCycle_Time[0] := arCycle_Time[1] := TIME() - tStart_Timestamp;
-			bMeasure_Cycle_Time := FALSE; 
-			END_IF
-
-		THIS^.Increment(arCycle_Time[0], arCycle_Time[1]); 
-		ET := LIMIT(T#0MS, THIS^.Lerp(T#0MS, PT, TO_REAL(arCycle_Time[0])/TO_REAL(PT))-arCycle_Time[1], PT);
-
-		IF (ET = PT) THEN Q := FALSE;  eState := IDLE; JMP LBL_TOP; END_IF
-		IF IN THEN ET := T#0MS; eState := IDLE;  JMP LBL_TOP;  END_IF
+		nLast_Cycle_Count := stPLC_Task_Info.CycleCount;
+		IF IN THEN tAccumulator := ET := T#0MS;END_IF
 END_CASE]]></ST>
     </Implementation>
-    <Method Name="Increment" Id="{7b36d870-5ab6-4877-8cf2-57f450b8b3d3}">
-      <Declaration><![CDATA[METHOD PRIVATE Increment
-VAR_INPUT
-	tValue 		: REFERENCE TO TIME; 
-	tIncrement 	: TIME;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[tValue := tValue + tIncrement; 
-]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="Lerp" Id="{36a01201-4a8e-4415-91bf-222a16e52a06}">
       <Declaration><![CDATA[// Linear interpolation (Lerp) - this method interpolates values between 2 time points.
 METHOD PRIVATE Lerp : TIME
@@ -73,21 +52,17 @@ Lerp := TO_TIME(TO_REAL(tStart) + TO_REAL(tFinish - tStart)*fPercentage);]]></ST
       </Implementation>
     </Method>
     <LineIds Name="FB_RTOF">
-      <LineId Id="417" Count="0" />
-      <LineId Id="348" Count="1" />
-      <LineId Id="388" Count="0" />
-      <LineId Id="421" Count="0" />
-      <LineId Id="390" Count="0" />
-      <LineId Id="416" Count="0" />
-      <LineId Id="392" Count="3" />
-      <LineId Id="391" Count="0" />
-      <LineId Id="356" Count="10" />
-      <LineId Id="420" Count="0" />
-      <LineId Id="179" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_RTOF.Increment">
-      <LineId Id="16" Count="0" />
-      <LineId Id="13" Count="0" />
+      <LineId Id="463" Count="1" />
+      <LineId Id="468" Count="0" />
+      <LineId Id="466" Count="0" />
+      <LineId Id="469" Count="0" />
+      <LineId Id="490" Count="0" />
+      <LineId Id="472" Count="0" />
+      <LineId Id="487" Count="1" />
+      <LineId Id="475" Count="2" />
+      <LineId Id="482" Count="0" />
+      <LineId Id="481" Count="0" />
+      <LineId Id="467" Count="0" />
     </LineIds>
     <LineIds Name="FB_RTOF.Lerp">
       <LineId Id="9" Count="0" />

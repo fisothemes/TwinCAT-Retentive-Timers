@@ -19,11 +19,13 @@ This project creates retentive variants of the standard library PLC timers:
 
 **In this project the following will be implementated:**
 
-* 👍 FB_RTON    - Retentive Timer On-Delay
-* 👍 FB_RTOF    - Retentive Timer Off-Delay 
-* 👍 FB_RTP     - Retentive  Pulse Timer
-* 👍 FB_Timer   - Pausable Timer
-* 👍 FB_RTimer  - Retentive Pausable Timer
+* 👍 FB_RTON       - Retentive Timer On-Delay
+* 👍 FB_RTOF       - Retentive Timer Off-Delay 
+* 👍 FB_RTP        - Retentive  Pulse Timer
+* 👍 FB_Timer      - Pausable Timer
+* 👍 FB_RTimer     - Retentive Pausable Timer
+* 👍 FB_Stopwatch  - Normal Stopwatch
+* 👍 FB_RStopwatch - Retentive Stopwatch
 
 - - - -
 ### FB_RTON
@@ -103,4 +105,36 @@ fbRTimer : FB_RTimer;
 **Implimentation**
 ```Pascal
 fbRTimer(bStart := bStart, bPause := bPause, tSet := tSet_Time, bElapsed => bElapsed_RTime, tElapsed => tElapsed_RTime);
+```
+
+- - - -
+## FB_Stopwatch
+
+**Declaration:** 
+```Pascal
+(* <name of timer> : FB_Stopwatch *)
+
+// Declaring a Stopwatch
+fbStopwatch : FB_Stopwatch;
+```
+
+**Implimentation**
+```Pascal
+fbStopwatch(bStart := bStart, tElapsed => tElapsed_Time);
+```
+
+- - - -
+## FB_RStopwatch
+
+**Declaration:** 
+```Pascal
+(* <name of timer> : FB_RStopwatch *)
+
+// Declaring a Stopwatch
+fbRStopwatch : FB_RStopwatch;
+```
+
+**Implimentation**
+```Pascal
+fbRStopwatch(bStart := bStart, tElapsed => tElapsed_Time);
 ```

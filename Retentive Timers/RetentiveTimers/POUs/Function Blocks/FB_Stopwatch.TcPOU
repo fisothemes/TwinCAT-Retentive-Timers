@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="FB_Stopwatch" Id="{da9797a0-ade6-4f37-a611-8bc6861938d0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Stopwatch
+VAR_INPUT
+	bStart : BOOL;
+END_VAR
+VAR_OUTPUT
+	tElapsed : TIME;
+END_VAR
+VAR
+	stPLC_Task_Info : ST_PLC_TASK_INFORMATION;
+	tAccumilator 	: TIME;
+	fbTON 			: TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bStart THEN stPLC_Task_Info := F_Get_PLC_Task_Information(); END_IF
+fbTON(PT := stPLC_Task_Info.tCycleTime*2 + tAccumilator);
+fbTON(IN := bStart AND NOT(fbTON.Q));
+tAccumilator := fbTON.ET; 
+IF bStart THEN tElapsed := tAccumilator; END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Stopwatch">
+      <LineId Id="41" Count="1" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="17" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

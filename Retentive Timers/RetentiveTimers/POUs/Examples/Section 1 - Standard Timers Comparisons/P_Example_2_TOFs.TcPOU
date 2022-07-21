@@ -4,7 +4,7 @@
     <Declaration><![CDATA[PROGRAM P_Example_2_TOFs
 VAR
 	bStart 				: BOOL; 
-	tSet_Time 			: TIME := T#1M; 
+	tSet_Time 			: TIME := T#10S; 
 	tElapsed_Time_TOF, 
 	tElapsed_Time_RTOF 	: TIME; 
 	bElapsed_Time_TOF,

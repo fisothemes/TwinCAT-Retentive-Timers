@@ -4,7 +4,7 @@
     <Declaration><![CDATA[PROGRAM P_Example_1_TONs
 VAR
 	bStart 				: BOOL; 
-	tSet_Time 			: TIME := T#10M; 
+	tSet_Time 			: TIME := T#10S; 
 	tElapsed_Time_TON, 
 	tElapsed_Time_RTON 	: TIME; 
 	bElapsed_Time_TON,
@@ -12,7 +12,8 @@ VAR
 	
 	fbTON 				: TON;
 	fbRTON 				: FB_RTON;
-	
+	stPLC_Task_Info : ST_PLC_TASK_INFORMATION;
+	nCC, nRCC 	: UDINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -53,7 +54,8 @@ fbRTON(IN := bStart, PT := tSet_Time,
       <LineId Id="51" Count="0" />
       <LineId Id="67" Count="0" />
       <LineId Id="66" Count="0" />
-      <LineId Id="68" Count="1" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="87" Count="0" />
       <LineId Id="71" Count="0" />
       <LineId Id="70" Count="0" />
     </LineIds>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <DUT Name="ST_PLC_TASK_INFORMATION" Id="{a37eef95-8873-4302-8f44-a07702bc3028}">
+    <Declaration><![CDATA[TYPE ST_PLC_TASK_INFORMATION EXTENDS PlcTaskSystemInfo :
+STRUCT
+	tCycleTime 	: TIME; 	// Current task cycle time
+	tlCycleTime : LTIME; 	// Current task cycle time in LTIME
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

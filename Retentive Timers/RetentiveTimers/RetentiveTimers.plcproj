@@ -15,8 +15,26 @@
     <Implicit_KindOfTask>{3dd86d54-9342-4445-9e2f-b1944033efcf}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{2602652b-1c64-41f3-95a9-ecc15987331c}</Implicit_Jitter_Distribution>
     <LibraryReferences>{de2f5482-5021-4f2b-9d7e-bc773d5d1f82}</LibraryReferences>
+    <Company>FisoThemes</Company>
+    <Released>false</Released>
+    <Title>Retentive Timers</Title>
+    <ProjectVersion>0.1.0.0</ProjectVersion>
+    <DefaultNamespace>RTimers</DefaultNamespace>
+    <Author>Goodwill Mzumala</Author>
+    <Description>Standard library timers on TwinCAT count time by taking the difference between the current time from system timer and start time from system timer.
+While this is fine for most application, it is problematic for operations that require time to be retained even if the PLC is paused, stopped or turned off.
+For example, if a `TON` (Timer On-Delay) Timer is running and you stop the PLC Boot Project for a period of time, the `TON` will not resume from the point it was stopped.
+Instead it will skip time by the number of ms/secs/mins/hours it was stopped. 
+This makes it useless for applications such as tracking the length of time a PLC has been running or retaining persistent time.
+
+Retentive variants of the Standard library timers stop this from happen. They are based on PLC Task cycle time rather than system time. 
+This means they will simply stop counting when the PLC Task Cycle is stopped and will resume from where they left-off as soon as the task cycle picks up.
+All arguments behave in the same manner as those of the standard library. </Description>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DUTs\Structs\ST_PLC_TASK_INFORMATION.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
@@ -35,6 +53,12 @@
     <Compile Include="POUs\Examples\Section 2 - Pausable Timers Comparisons\P_Section_2.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Examples\Section 3 - Stopwatch\P_Example_Stopwatch.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Examples\Section 3 - Stopwatch\P_Section_3.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Function Blocks\FB_RTimer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -47,7 +71,16 @@
     <Compile Include="POUs\Function Blocks\FB_RTP.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Function Blocks\FB_RStopwatch.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Function Blocks\FB_Timer.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Function Blocks\FB_Stopwatch.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\F_Get_PLC_Task_Information.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
@@ -56,11 +89,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
+    <Folder Include="DUTs\Structs" />
     <Folder Include="GVLs" />
+    <Folder Include="POUs\Examples\Section 3 - Stopwatch" />
     <Folder Include="POUs\Examples\Section 1 - Standard Timers Comparisons" />
     <Folder Include="POUs\Examples\Section 2 - Pausable Timers Comparisons" />
     <Folder Include="POUs\Function Blocks" />
     <Folder Include="POUs\Examples" />
+    <Folder Include="POUs\Functions" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>

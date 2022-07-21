@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="FB_RStopwatch" Id="{924f45b3-a994-4dee-b158-033e4b7ec793}" SpecialFunc="None">
+    <Declaration><![CDATA[// Retentive stopwatch
+FUNCTION_BLOCK FB_RStopwatch
+VAR_INPUT
+	bStart : BOOL;
+END_VAR
+VAR_OUTPUT
+	tElapsed : TIME;
+END_VAR
+VAR
+	stPLC_Task_Info : ST_PLC_TASK_INFORMATION;
+	tAccumilator 	: TIME;
+	fbTON 			: FB_RTON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bStart THEN stPLC_Task_Info := F_Get_PLC_Task_Information(); END_IF
+fbTON(PT := stPLC_Task_Info.tCycleTime*2 + tAccumilator);
+fbTON(IN := bStart AND NOT(fbTON.Q));
+tAccumilator := fbTON.ET; 
+IF bStart THEN tElapsed := tAccumilator; END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_RStopwatch">
+      <LineId Id="53" Count="3" />
+      <LineId Id="17" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

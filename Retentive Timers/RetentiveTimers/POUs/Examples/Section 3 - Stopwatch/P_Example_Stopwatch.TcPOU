@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="P_Example_Stopwatch" Id="{869ebe88-c85f-4038-b57e-d41e80f8402e}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM P_Example_Stopwatch
+VAR
+	bStart 						: BOOL; 
+	tElapsed_Time_Stopwatch, 
+	tElapsed_Time_RStopwatch 	: TIME; 
+	fbStopwatch 				: FB_Stopwatch;
+	fbRStopwatch 				: FB_RStopwatch;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*
+NOTES:
+	-> Activate Configuration and START(F5) PLC Boot Project
+	-> Login (if you haven't already)
+	-> Make sure both timers are set for 10 mins 
+	-> Start the timers by writing a TRUE to the bStart variable
+	-> Let the timers run for a little bit
+	-> Notice that both elapsed time read are the same
+	-> STOP(Shift+F5) the PLC Boot Project for approx. 10-30secs
+	-> START(F5) the PLC Boot Project
+*)
+
+fbStopwatch(bStart := bStart, tElapsed => tElapsed_Time_Stopwatch);
+fbRStopwatch(bStart := bStart, tElapsed => tElapsed_Time_RStopwatch);	  ]]></ST>
+    </Implementation>
+    <LineIds Name="P_Example_Stopwatch">
+      <LineId Id="15" Count="9" />
+      <LineId Id="28" Count="2" />
+      <LineId Id="32" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -7,11 +7,13 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[P_Section_1();
-P_Section_2();]]></ST>
+P_Section_2();
+P_Section_3();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="2" Count="0" />
       <LineId Id="6" Count="0" />
+      <LineId Id="10" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

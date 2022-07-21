@@ -4,7 +4,7 @@
     <Declaration><![CDATA[PROGRAM P_Section_2
 VAR
 	bStart, bPause 		: BOOL; 
-	tSet_Time 			: TIME := T#1M; 
+	tSet_Time 			: TIME := T#10S; 
 	tElapsed_Time,
 	tElapsed_RTime 		: TIME; 
 	bElapsed_Time,

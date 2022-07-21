@@ -14,48 +14,30 @@ VAR_OUTPUT
         ET      : TIME; // The current phase of the High-Signal
 END_VAR
 VAR
-	bMeasure_Cycle_Time : BOOL;
-	tStart_Timestamp 	: TIME; 
-	arCycle_Time 		: ARRAY[0..1] OF TIME; // 0: Actual cycle time 1: Copy of cycle time
-	eState 				: (IDLE, READY, START);
+	stPLC_Task_Info 	: ST_PLC_TASK_INFORMATION;
+	tAccumulator 		: TIME;
+	nLast_Cycle_Count 	: UDINT;
+	eState 				: (IDLE, RUN);
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[LBL_TOP: 
-CASE eState OF 
+      <ST><![CDATA[LBL_TOP:
+CASE eState OF
 	IDLE:
-		ET := T#0MS; Q := FALSE;
-		IF IN THEN eState := READY; Q := TRUE; JMP LBL_TOP; END_IF
-
-	READY: 
-		
-		bMeasure_Cycle_Time := Q := TRUE; 
-		tStart_Timestamp := TIME();
-		eState := START;  
-		
-	START: 
-		IF bMeasure_Cycle_Time THEN 
-			arCycle_Time[0] := arCycle_Time[1] := TIME() - tStart_Timestamp;
-			bMeasure_Cycle_Time := FALSE; 
-			END_IF
-
-		THIS^.Increment(arCycle_Time[0], arCycle_Time[1]); 
-		ET := LIMIT(T#0MS, THIS^.Lerp(T#0MS, PT, TO_REAL(arCycle_Time[0])/TO_REAL(PT))-arCycle_Time[1], PT);
+		tAccumulator := ET := T#0MS; Q := FALSE;
+		IF IN THEN eState := RUN; JMP LBL_TOP; END_IF
+	RUN:
 		Q := ET < PT;
-		IF NOT(Q OR IN) THEN eState := IDLE; END_IF
+		IF (PT = t#0s) THEN RETURN; END_IF
+		IF NOT(Q) AND NOT(IN) THEN eState := IDLE; JMP LBL_TOP; END_IF
+		IF NOT(Q) THEN RETURN; END_IF
+		stPLC_Task_Info := F_Get_PLC_Task_Information();
+		IF (nLast_Cycle_Count = stPLC_Task_Info.CycleCount)THEN RETURN; END_IF
+		tAccumulator := tAccumulator + stPLC_Task_Info.tCycleTime; 
+		ET := LIMIT(T#0MS, THIS^.Lerp(T#0MS, PT, TO_REAL(tAccumulator)/TO_REAL(PT))-stPLC_Task_Info.tCycleTime, PT);
+		nLast_Cycle_Count := stPLC_Task_Info.CycleCount;	
 END_CASE]]></ST>
     </Implementation>
-    <Method Name="Increment" Id="{55d1f2b0-3e68-4c97-985d-b57830ce6cd5}">
-      <Declaration><![CDATA[METHOD PRIVATE Increment
-VAR_INPUT
-	tValue 		: REFERENCE TO TIME; 
-	tIncrement 	: TIME;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[tValue := tValue + tIncrement; 
-]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="Lerp" Id="{b0fef7d9-678a-4cd9-a074-11650f082ba9}">
       <Declaration><![CDATA[// Linear interpolation (Lerp) - this method interpolates values between 2 time points.
 METHOD PRIVATE Lerp : TIME
@@ -71,20 +53,20 @@ Lerp := TO_TIME(TO_REAL(tStart) + TO_REAL(tFinish - tStart)*fPercentage);]]></ST
       </Implementation>
     </Method>
     <LineIds Name="FB_RTP">
-      <LineId Id="71" Count="0" />
-      <LineId Id="24" Count="1" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="72" Count="1" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="66" Count="0" />
-      <LineId Id="68" Count="2" />
-      <LineId Id="64" Count="0" />
-      <LineId Id="33" Count="9" />
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_RTP.Increment">
-      <LineId Id="16" Count="0" />
-      <LineId Id="13" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="101" Count="1" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="103" Count="1" />
+      <LineId Id="132" Count="0" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="133" Count="0" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="138" Count="0" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="92" Count="0" />
     </LineIds>
     <LineIds Name="FB_RTP.Lerp">
       <LineId Id="9" Count="0" />

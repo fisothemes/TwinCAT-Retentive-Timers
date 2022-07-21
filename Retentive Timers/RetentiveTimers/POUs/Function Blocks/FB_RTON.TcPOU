@@ -14,46 +14,25 @@ VAR_OUTPUT
 	ET 	: TIME; // Elapsed time
 END_VAR
 VAR
-	bMeasure_Cycle_Time : BOOL;
-	tStart_Timestamp 	: TIME; 
-	arCycle_Time 		: ARRAY[0..1] OF TIME; // 0: Actual cycle time 1: Copy of cycle time
-	eState 				: (IDLE, START);
+	stPLC_Task_Info 	: ST_PLC_TASK_INFORMATION;
+	tAccumulator 		: TIME;
+	nLast_Cycle_Count 	: UDINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE eState OF 
-	IDLE: 
-		ET := T#0MS; Q := FALSE;
-		IF IN THEN // Start Cycle time measurement and move to next state
-			bMeasure_Cycle_Time := TRUE; 
-			tStart_Timestamp := TIME();
-			eState := START;  
-			END_IF
+      <ST><![CDATA[IF IN THEN
+	stPLC_Task_Info := F_Get_PLC_Task_Information();
+	Q := ET >= PT;
 	
-	START: 
-		IF bMeasure_Cycle_Time THEN 
-			arCycle_Time[0] := arCycle_Time[1] := TIME() - tStart_Timestamp;
-			bMeasure_Cycle_Time := FALSE; 
-			END_IF
-		IF NOT(Q) THEN 
-			THIS^.Increment(arCycle_Time[0], arCycle_Time[1]); 
-			ET := LIMIT(T#0MS, THIS^.Lerp(T#0MS, PT, TO_REAL(arCycle_Time[0])/TO_REAL(PT))-arCycle_Time[1], PT);
-			END_IF
-		IF NOT(IN) THEN eState := IDLE; END_IF
-		Q := ET >= PT; 
-END_CASE]]></ST>
+	IF NOT(Q) AND ((nLast_Cycle_Count <> stPLC_Task_Info.CycleCount) OR nLast_Cycle_Count = 0) THEN
+		tAccumulator := tAccumulator + stPLC_Task_Info.tCycleTime; 
+		ET := LIMIT(T#0MS, THIS^.Lerp(T#0MS, PT, TO_REAL(tAccumulator)/TO_REAL(PT))-stPLC_Task_Info.tCycleTime, PT);
+		nLast_Cycle_Count := stPLC_Task_Info.CycleCount;
+		END_IF
+	RETURN;
+	END_IF
+tAccumulator := ET := T#0MS; Q := FALSE;]]></ST>
     </Implementation>
-    <Method Name="Increment" Id="{f3067709-972a-47db-8863-68497c4d0138}">
-      <Declaration><![CDATA[METHOD PRIVATE Increment
-VAR_INPUT
-	tValue 		: REFERENCE TO TIME; 
-	tIncrement 	: TIME;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[tValue := tValue + tIncrement; 
-]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="Lerp" Id="{8e59712b-a242-4ba4-8a3b-aea8b34cb129}">
       <Declaration><![CDATA[// Linear interpolation (Lerp) - this method interpolates values between 2 time points.
 METHOD PRIVATE Lerp : TIME
@@ -69,12 +48,18 @@ Lerp := TO_TIME(TO_REAL(tStart) + TO_REAL(tFinish - tStart)*fPercentage);]]></ST
       </Implementation>
     </Method>
     <LineIds Name="FB_RTON">
-      <LineId Id="348" Count="19" />
-      <LineId Id="179" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_RTON.Increment">
-      <LineId Id="16" Count="0" />
-      <LineId Id="13" Count="0" />
+      <LineId Id="386" Count="0" />
+      <LineId Id="412" Count="0" />
+      <LineId Id="427" Count="0" />
+      <LineId Id="424" Count="0" />
+      <LineId Id="394" Count="0" />
+      <LineId Id="402" Count="0" />
+      <LineId Id="398" Count="0" />
+      <LineId Id="428" Count="0" />
+      <LineId Id="397" Count="0" />
+      <LineId Id="404" Count="0" />
+      <LineId Id="392" Count="0" />
+      <LineId Id="395" Count="0" />
     </LineIds>
     <LineIds Name="FB_RTON.Lerp">
       <LineId Id="9" Count="0" />

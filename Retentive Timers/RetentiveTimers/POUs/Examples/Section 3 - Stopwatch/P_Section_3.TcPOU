@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="P_Section_3" Id="{9dfa112c-c28e-495f-b48c-fe41abc3434c}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM P_Section_3
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[P_Example_Stopwatch();]]></ST>
+    </Implementation>
+    <LineIds Name="P_Section_3">
+      <LineId Id="6" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
