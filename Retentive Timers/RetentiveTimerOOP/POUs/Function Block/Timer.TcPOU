@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Timer" Id="{a15a59e8-0199-421a-9d2c-36ad1ffab388}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'hide_all_locals'}
+FUNCTION_BLOCK Timer EXTENDS Timer_Abstract
+VAR
+	_eTimer         : E_Timer_Type;
+	i_Timer			: I_Timer;
+	
+	FB_RStopwatch 	: FB_RStopwatch;
+	FB_RTimer       : FB_RTimer;
+	FB_RTOF 		: FB_RTOF;
+	FB_RTON         : FB_RTON;
+	FB_RTP          : FB_RTP;
+	FB_Stopwatch 	: FB_Stopwatch;
+	FB_Timer        : FB_Timer;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Run();]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{0508b393-a9dc-4e1e-9d90-bc2b9df5e271}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	eTimer      : E_Timer_Type;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^._eTimer := eTimer;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Run" Id="{03d698ce-840d-4dc9-8bc4-a41799f0593f}">
+      <Declaration><![CDATA[
+METHOD Run
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+CASE _eTimer OF
+	
+	E_Timer_Type.RStopwatch:
+		i_Timer   := FB_RStopwatch;
+
+	E_Timer_Type.RTimer:
+		i_Timer   := FB_RTimer;
+
+	E_Timer_Type.RTOF:
+		i_Timer   := FB_RTOF;
+
+	E_Timer_Type.RTON:
+		i_Timer   := FB_RTON;
+
+	E_Timer_Type.RTP:
+		i_Timer   := FB_RTP;
+
+	E_Timer_Type.Stopwatch:
+		i_Timer   := FB_Stopwatch;
+
+	E_Timer_Type.Timer:
+		i_Timer   := FB_Timer;		
+END_CASE
+
+i_Timer.Input   REF= SUPER^._Input;
+i_Timer.Setting REF= SUPER^._Setting;
+i_Timer.Run();
+SUPER^._Output := i_Timer.Output;
+
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{4929f935-4250-451f-b1b1-457d2a3e6e2b}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	fbRStopwatch		: Timer(E_timer_type.RStopwatch);
+	fbRTimer			: Timer(E_timer_type.RTimer);
+	fbRTOF				: Timer(E_timer_type.RTOF);
+	fbRTON				: Timer(E_timer_type.RTON);
+	fbRTP				: Timer(E_timer_type.RTP);
+	fbStopwatch			: Timer(E_timer_type.Stopwatch);
+	fbTimer				: Timer(E_timer_type.Timer);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+fbRStopwatch();
+fbRTimer();
+fbRTOF();
+fbRTON();
+fbRTP();
+fbStopwatch();
+fbTimer();]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

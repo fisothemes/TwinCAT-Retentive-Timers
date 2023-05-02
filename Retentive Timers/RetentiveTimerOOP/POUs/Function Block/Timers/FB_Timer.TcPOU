@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Timer" Id="{f33afc4c-6a33-4391-aba3-34417beb95d7}" SpecialFunc="None">
+    <Declaration><![CDATA[// Pausable Timer Function Block
+FUNCTION_BLOCK INTERNAL FB_Timer EXTENDS Timer_Abstract
+//VAR_INPUT
+//    bStart 		: BOOL; // Start (TRUE) or Stop (FALSE) Timer 
+//	bPause 		: BOOL; // Pause Timer (TRUE), Only Pauses if IN := TRUE
+//    tPreSet		: TIME; // Set Time
+//END_VAR
+//VAR_OUTPUT
+//    bDone 		: BOOL;	// Becomes TRUE after Set Time has passed
+//    tElapsed 	: TIME; // Time Elapsed
+//END_VAR
+VAR
+	fbTON 		: TON;
+	tPaused 	: TIME;
+	eState		: (START, PAUSE);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Run" Id="{c7278cf2-7e16-4751-899a-850cbbf8796a}">
+      <Declaration><![CDATA[
+METHOD Run
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT(SUPER^._Input.bStart) THEN tPaused := SUPER^._Output.tElapsed := T#0MS; END_IF
+fbTON(PT := SUPER^._Setting.tPreSet - tPaused, Q => SUPER^._Output.bDone);
+IF SUPER^._Input.bPause THEN 
+	tPaused := fbTON.ET + tPaused; 
+	fbTON(IN := FALSE); 
+ELSE 
+	fbTON(IN := SUPER^._Input.bStart); 
+	SUPER^._Output.tElapsed := fbTON.ET + tPaused; 
+	END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

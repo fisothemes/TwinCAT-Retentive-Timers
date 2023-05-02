@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_Timer" Id="{c1c088be-f360-4e82-9631-f29e4a6f9dcb}">
+    <Declaration><![CDATA[INTERFACE I_Timer
+]]></Declaration>
+    <Property Name="Input" Id="{30a681b4-13d2-46ce-90b2-2a29a995a827}">
+      <Declaration><![CDATA[PROPERTY Input : REFERENCE TO ST_Input]]></Declaration>
+      <Set Name="Set" Id="{5661becf-92b6-462f-9c38-91adfe6eb094}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="Output" Id="{2330f76d-86bc-4fde-ba40-c3ea2ef5bd48}">
+      <Declaration><![CDATA[PROPERTY Output : REFERENCE TO ST_Output]]></Declaration>
+      <Get Name="Get" Id="{c56a5c12-5fe8-494b-9ba1-ed7e94e7952c}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Method Name="Run" Id="{08ba81ea-83ed-47a5-bc9c-c0d88249effa}">
+      <Declaration><![CDATA[METHOD Run
+
+]]></Declaration>
+    </Method>
+    <Property Name="Setting" Id="{72a2465f-006a-44f6-90e3-6c114dd71c8f}">
+      <Declaration><![CDATA[PROPERTY Setting : REFERENCE TO ST_Setting]]></Declaration>
+      <Set Name="Set" Id="{e40e6cae-f663-4d98-88d9-cf21a1218fb4}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+  </Itf>
+</TcPlcObject>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_RTimer" Id="{6d091100-d754-47af-8c2e-f7a5c2a91daf}" SpecialFunc="None">
+    <Declaration><![CDATA[// Retentive Pausable Timer Function Block
+FUNCTION_BLOCK INTERNAL FB_RTimer EXTENDS Timer_Abstract
+//VAR_INPUT
+//    bStart 			: BOOL; // Start (TRUE) or Stop (FALSE) Timer 
+//	bPause 			: BOOL; // Pause Timer (TRUE), Only Pauses if IN := TRUE
+//    tPreSet			: TIME; // Set Time
+//END_VAR
+//VAR_OUTPUT
+//    bDone 			: BOOL;	// Becomes TRUE after Set Time has passed
+//    tElapsed 		: TIME; // Time Elapsed
+//END_VAR
+VAR
+	fbRTON 			: FB_RTON;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Run" Id="{6459a8b1-f680-4369-bb9c-1c8bcf1ba3e4}">
+      <Declaration><![CDATA[
+METHOD Run
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT(SUPER^._Input.bStart) THEN 
+	//fbRTON(bStart := FALSE, bDone => SUPER^._Output.bDone, tElapsed => SUPER^._Output.tElapsed); 
+	fbRTON._Input.bStart := FALSE;
+	fbRTON._Setting.tPreSet := SUPER^._Setting.tPreSet;
+	fbRTON.Run();
+	SUPER^._Output := fbRTON.Output;
+	RETURN; 
+END_IF
+
+IF SUPER^._Input.bPause THEN RETURN; END_IF;
+
+//fbRTON(bStart := TRUE, tPreSet := SUPER^._Setting.tPreSet, bDone => SUPER^._Output.bDone, tElapsed => SUPER^._Output.tElapsed);
+fbRTON._Input.bStart := TRUE;
+fbRTON._Setting.tPreSet :=  SUPER^._Setting.tPreSet;
+fbRTON.Run();
+SUPER^._Output := fbRTON.Output;
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

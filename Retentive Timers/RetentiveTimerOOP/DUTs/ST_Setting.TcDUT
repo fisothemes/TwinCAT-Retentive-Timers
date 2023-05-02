@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="ST_Setting" Id="{2eecb69a-08a0-4b01-b371-3f05ed33496c}">
+    <Declaration><![CDATA[TYPE ST_Setting :
+STRUCT
+	tPreSet 	: TIME; // Time to pass, before Q is set
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

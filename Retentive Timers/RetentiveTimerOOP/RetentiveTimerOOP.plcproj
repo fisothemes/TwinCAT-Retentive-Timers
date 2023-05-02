@@ -2,25 +2,25 @@
   <PropertyGroup>
     <FileVersion>1.0.0.0</FileVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0f367a31-25e1-4309-b4db-37de0ca39889}</ProjectGuid>
+    <ProjectGuid>{c815c559-3b3c-463f-80f5-443f6f671294}</ProjectGuid>
     <SubObjectsSortedByName>True</SubObjectsSortedByName>
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
     <WriteProductVersion>true</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
-    <Name>RetentiveTimers</Name>
+    <Name>RetentiveTimerOOP</Name>
     <ProgramVersion>3.1.4023.0</ProgramVersion>
-    <Application>{fa82a635-5789-4dee-8b16-f3a52d24d1ee}</Application>
-    <TypeSystem>{d65695b6-c6e2-40bd-8b4d-625d24c8a49e}</TypeSystem>
-    <Implicit_Task_Info>{4f26f17d-c5d3-461e-8740-ff32cfebea0d}</Implicit_Task_Info>
-    <Implicit_KindOfTask>{3dd86d54-9342-4445-9e2f-b1944033efcf}</Implicit_KindOfTask>
-    <Implicit_Jitter_Distribution>{2602652b-1c64-41f3-95a9-ecc15987331c}</Implicit_Jitter_Distribution>
-    <LibraryReferences>{de2f5482-5021-4f2b-9d7e-bc773d5d1f82}</LibraryReferences>
-    <Company>FisoThemes</Company>
+    <Application>{13faea5d-d222-4497-87be-d5b6085fe03d}</Application>
+    <TypeSystem>{ac300332-e58e-415a-9eff-1ebca57b9225}</TypeSystem>
+    <Implicit_Task_Info>{578b7622-bb37-495b-8112-83b51807c21e}</Implicit_Task_Info>
+    <Implicit_KindOfTask>{85a6de96-bd63-408a-8c88-db90223d844b}</Implicit_KindOfTask>
+    <Implicit_Jitter_Distribution>{78dd5b35-f2c0-4fef-ae0b-324c5c7c1f0c}</Implicit_Jitter_Distribution>
+    <LibraryReferences>{33eebe84-20f7-461d-926e-83d71be4e940}</LibraryReferences>
+    <Company>FisoThemes&amp;Runtimevic</Company>
     <Released>false</Released>
     <Title>Retentive Timers</Title>
-    <ProjectVersion>0.1.0.0</ProjectVersion>
+    <ProjectVersion>0.0.0.1</ProjectVersion>
     <DefaultNamespace>RTimers</DefaultNamespace>
-    <Author>Goodwill Mzumala</Author>
+    <Author>Goodwill Mzumala &amp; Victor Duran</Author>
     <Description>Standard library timers on TwinCAT count time by taking the difference between the current time from system timer and start time from system timer.
 While this is fine for most application, it is problematic for operations that require time to be retained even if the PLC is paused, stopped or turned off.
 For example, if a `TON` (Timer On-Delay) Timer is running and you stop the PLC Boot Project for a period of time, the `TON` will not resume from the point it was stopped.
@@ -30,54 +30,55 @@ This makes it useless for applications such as tracking the length of time a PLC
 Retentive variants of the Standard library timers stop this from happen. They are based on PLC Task cycle time rather than system time. 
 This means they will simply stop counting when the PLC Task Cycle is stopped and will resume from where they left-off as soon as the task cycle picks up.
 All arguments behave in the same manner as those of the standard library. </Description>
+    <DocFormat>reStructuredText</DocFormat>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DUTs\Structs\ST_PLC_TASK_INFORMATION.TcDUT">
+    <Compile Include="DUTs\E_Timer_Type.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ST_Input.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ST_Output.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ST_PLC_TASK_INFORMATION.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ST_Setting.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\I_Timer.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Examples\Section 1 - Standard Timers Comparisons\P_Example_3_TPs.TcPOU">
+    <Compile Include="POUs\Function Block\Timer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Examples\Section 1 - Standard Timers Comparisons\P_Section_1.TcPOU">
+    <Compile Include="POUs\Function Block\Timers\FB_RStopwatch.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Examples\Section 1 - Standard Timers Comparisons\P_Example_1_TONs.TcPOU">
+    <Compile Include="POUs\Function Block\Timers\FB_RTimer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Examples\Section 1 - Standard Timers Comparisons\P_Example_2_TOFs.TcPOU">
+    <Compile Include="POUs\Function Block\Timers\FB_RTOF.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Examples\Section 2 - Pausable Timers Comparisons\P_Section_2.TcPOU">
+    <Compile Include="POUs\Function Block\Timers\FB_RTON.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Examples\Section 3 - Stopwatch\P_Example_Stopwatch.TcPOU">
+    <Compile Include="POUs\Function Block\Timers\FB_RTP.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Examples\Section 3 - Stopwatch\P_Section_3.TcPOU">
+    <Compile Include="POUs\Function Block\Timers\FB_Stopwatch.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Function Blocks\FB_RTimer.TcPOU">
+    <Compile Include="POUs\Function Block\Timers\FB_Timer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Function Blocks\FB_RTON.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Function Blocks\FB_RTOF.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Function Blocks\FB_RTP.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Function Blocks\FB_RStopwatch.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Function Blocks\FB_Timer.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Function Blocks\FB_Stopwatch.TcPOU">
+    <Compile Include="POUs\Function Block\Timer_Abstract.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\F_Get_PLC_Task_Information.TcPOU">
@@ -86,17 +87,30 @@ All arguments behave in the same manner as those of the standard library. </Desc
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Project Information\F_GetCompany.TcPOU">
+      <SubType>Code</SubType>
+      <SystemCall>true</SystemCall>
+    </Compile>
+    <Compile Include="Project Information\F_GetTitle.TcPOU">
+      <SubType>Code</SubType>
+      <SystemCall>true</SystemCall>
+    </Compile>
+    <Compile Include="Project Information\F_GetVersion.TcPOU">
+      <SubType>Code</SubType>
+      <SystemCall>true</SystemCall>
+    </Compile>
+    <Compile Include="Version\Global_Version.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
-    <Folder Include="DUTs\Structs" />
-    <Folder Include="POUs\Examples\Section 3 - Stopwatch" />
-    <Folder Include="POUs\Examples\Section 1 - Standard Timers Comparisons" />
-    <Folder Include="POUs\Examples\Section 2 - Pausable Timers Comparisons" />
-    <Folder Include="POUs\Function Blocks" />
-    <Folder Include="POUs\Examples" />
+    <Folder Include="Interfaces" />
+    <Folder Include="POUs\Function Block\Timers" />
     <Folder Include="POUs\Functions" />
-    <Folder Include="VISUs" />
+    <Folder Include="POUs\Function Block" />
+    <Folder Include="Project Information" />
+    <Folder Include="Version" />
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
@@ -114,7 +128,7 @@ All arguments behave in the same manner as those of the standard library. </Desc
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="RetentiveTimers.tmc">
+    <None Include="RetentiveTimerOOP.tmc">
       <SubType>Content</SubType>
     </None>
   </ItemGroup>
