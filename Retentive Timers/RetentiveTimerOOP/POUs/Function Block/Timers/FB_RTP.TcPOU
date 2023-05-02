@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_RTP" Id="{b90f4bb1-ab35-45a5-ace2-8b6a9cbc2fa2}" SpecialFunc="None">
+    <Declaration><![CDATA[(* Retentive Pulse Timer - implements a pulse time that persists if PLC cycle is stopped. 
+when the input becomes TRUE, the elapsed time ET will run for the set time PT and the output Q will becomes TRUE.  
+*)
+FUNCTION_BLOCK INTERNAL FB_RTP EXTENDS Timer_Abstract
+//VAR_INPUT
+//	bStart      		: BOOL; // Trigger for Start of the Signal
+//    tPreSet    			: TIME; // The length of the High-Signal in ms
+//END_VAR
+//VAR_OUTPUT
+//    bDone       		: BOOL; // The pulse
+//    tElapsed      		: TIME; // The current phase of the High-Signal
+//END_VAR
+VAR
+	stPLC_Task_Info 	: ST_PLC_TASK_INFORMATION;
+	tAccumulator 		: TIME;
+	nLast_Cycle_Count 	: UDINT;
+	eState 				: (IDLE, RUN);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Lerp" Id="{3b47d42a-89b4-4dea-b4b8-a97e016fd39d}">
+      <Declaration><![CDATA[// Linear interpolation (Lerp) - this method interpolates values between 2 time points.
+METHOD PRIVATE Lerp : TIME
+VAR_INPUT
+	tStart 	: TIME := T#0MS; 
+	tFinish : TIME;
+	fPercentage : REAL; // Value must be between 0 and 1
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Lerp(Start, Finish, Percentage) = Start + (Finish - Start)*Percentage
+Lerp := TO_TIME(TO_REAL(tStart) + TO_REAL(tFinish - tStart)*fPercentage);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Run" Id="{926701c8-8a4b-4d5c-ac2b-f1d14bdf0c6a}">
+      <Declaration><![CDATA[
+METHOD Run
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[LBL_TOP:
+CASE eState OF
+	IDLE:
+		tAccumulator := SUPER^._Output.tElapsed := T#0MS; SUPER^._Output.bDone := FALSE;
+		IF SUPER^._Input.bStart THEN eState := RUN; JMP LBL_TOP; END_IF
+	RUN:
+		SUPER^._Output.bDone := SUPER^._Output.tElapsed < SUPER^._Setting.tPreSet;
+		IF (SUPER^._Setting.tPreSet = T#0S) THEN RETURN; END_IF
+		IF NOT(SUPER^._Output.bDone) AND NOT(SUPER^._Input.bStart) THEN eState := IDLE; JMP LBL_TOP; END_IF
+		IF NOT(SUPER^._Output.bDone) THEN RETURN; END_IF
+		stPLC_Task_Info := F_Get_PLC_Task_Information();
+		IF (nLast_Cycle_Count = stPLC_Task_Info.CycleCount)THEN RETURN; END_IF
+		tAccumulator := tAccumulator + stPLC_Task_Info.tCycleTime; 
+		SUPER^._Output.tElapsed := LIMIT(T#0MS, THIS^.Lerp(T#0MS, SUPER^._Setting.tPreSet, TO_REAL(tAccumulator)/TO_REAL(SUPER^._Setting.tPreSet))-stPLC_Task_Info.tCycleTime, SUPER^._Setting.tPreSet);
+		nLast_Cycle_Count := stPLC_Task_Info.CycleCount;	
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

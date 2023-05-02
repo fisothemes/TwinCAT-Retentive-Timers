@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="E_Timer_Type" Id="{b49f26ef-fc3d-414b-9f6d-6399f15e1779}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_Timer_Type :
+(
+	RStopwatch := 0,
+	RTimer,
+	RTOF,
+	RTON,
+	RTP,
+	Stopwatch,
+	Timer,
+	TOF,
+	TON,
+	TP
+	
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

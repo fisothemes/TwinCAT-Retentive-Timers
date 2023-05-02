@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="ST_Input" Id="{d6ca7004-bf98-4189-a2b2-ca7c52d66de9}">
+    <Declaration><![CDATA[TYPE ST_Input :
+STRUCT
+	bStart 		: BOOL;  // Starts timer with rising edge, resets timer with falling edge.
+	bPause 		:  BOOL; // Pause Timer (TRUE), Only Pauses if IN := TRUE.
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

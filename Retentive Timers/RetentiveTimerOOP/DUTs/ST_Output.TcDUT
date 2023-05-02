@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="ST_Output" Id="{1dce588d-9b57-46d3-8610-55c36eb4c566}">
+    <Declaration><![CDATA[TYPE ST_Output :
+STRUCT
+	bDone 		: BOOL; // Is TRUE, PT seconds after IN had a rising edge
+	tElapsed 	: TIME; // Elapsed time
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

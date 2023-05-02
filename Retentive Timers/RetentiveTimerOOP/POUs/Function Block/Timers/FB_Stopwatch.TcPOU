@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Stopwatch" Id="{4eacc48a-bf07-4fd0-8e38-8bbfaf7d4324}" SpecialFunc="None">
+    <Declaration><![CDATA[
+FUNCTION_BLOCK INTERNAL FB_Stopwatch EXTENDS Timer_Abstract
+//VAR_INPUT
+//	bStart 			: BOOL;
+//END_VAR
+//VAR_OUTPUT
+//	tElapsed 		: TIME;
+//END_VAR
+VAR
+	stPLC_Task_Info : ST_PLC_TASK_INFORMATION;
+	tAccumulator 	: TIME;
+	fbTON 			: TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Run" Id="{b77eea84-24bc-42b1-9025-3388e5b6a3a3}">
+      <Declaration><![CDATA[
+METHOD Run
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF SUPER^._Input.bStart THEN stPLC_Task_Info := F_Get_PLC_Task_Information(); END_IF
+fbTON(PT := stPLC_Task_Info.tCycleTime*2 + tAccumulator);
+fbTON(IN := SUPER^._Input.bStart AND NOT(fbTON.Q));
+tAccumulator := fbTON.ET; 
+IF SUPER^._Input.bStart THEN SUPER^._Output.tElapsed := tAccumulator; END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

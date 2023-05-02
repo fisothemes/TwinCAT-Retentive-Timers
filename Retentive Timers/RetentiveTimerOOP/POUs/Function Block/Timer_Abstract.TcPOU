@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Timer_Abstract" Id="{16764f21-872a-4462-b20e-5c4063cdd38a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT Timer_Abstract IMPLEMENTS I_Timer
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_Setting 	: ST_Setting;
+	_Input 		: ST_Input;
+	_Output     : ST_Output;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="Input" Id="{ea075b2c-1a90-470d-a0b7-01d39144eb2a}">
+      <Declaration><![CDATA[
+PROPERTY Input : REFERENCE TO ST_Input
+]]></Declaration>
+      <Set Name="Set" Id="{323678a0-addf-419c-935f-8a249a8b1fb3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[THIS^._Input := Input;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Output" Id="{934d7402-5635-41b7-a552-e617723f545b}">
+      <Declaration><![CDATA[
+PROPERTY Output : REFERENCE TO ST_Output
+]]></Declaration>
+      <Get Name="Get" Id="{0e6781db-9c98-4dbe-b9d7-f89b709ece3e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Output REF= THIS^._Output;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Run" Id="{10b4d269-36ed-46c3-8ffe-df48d8149806}">
+      <Declaration><![CDATA[
+METHOD ABSTRACT Run
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Setting" Id="{b6984b6d-bfcd-4204-98b3-9eb2fc47202f}">
+      <Declaration><![CDATA[
+PROPERTY Setting : REFERENCE TO ST_Setting
+]]></Declaration>
+      <Set Name="Set" Id="{f3c93a8a-e125-444e-8bba-600f5e90645f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[THIS^._Setting := Setting;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+  </POU>
+</TcPlcObject>

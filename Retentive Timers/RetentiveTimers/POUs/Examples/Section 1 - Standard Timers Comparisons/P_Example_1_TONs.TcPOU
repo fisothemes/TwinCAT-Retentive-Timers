@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="P_Example_1_TONs" Id="{8f5a3a44-9bf4-4874-a6db-394e8666faeb}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM P_Example_1_TONs
 VAR
@@ -38,26 +38,5 @@ fbTON(IN := bStart, PT := tSet_Time,
 fbRTON(IN := bStart, PT := tSet_Time, 
 	  Q => bElapsed_Time_RTON, ET => tElapsed_Time_RTON);]]></ST>
     </Implementation>
-    <LineIds Name="P_Example_1_TONs">
-      <LineId Id="5" Count="0" />
-      <LineId Id="50" Count="0" />
-      <LineId Id="53" Count="0" />
-      <LineId Id="56" Count="0" />
-      <LineId Id="54" Count="1" />
-      <LineId Id="57" Count="0" />
-      <LineId Id="60" Count="0" />
-      <LineId Id="59" Count="0" />
-      <LineId Id="61" Count="0" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="62" Count="0" />
-      <LineId Id="64" Count="0" />
-      <LineId Id="51" Count="0" />
-      <LineId Id="67" Count="0" />
-      <LineId Id="66" Count="0" />
-      <LineId Id="68" Count="0" />
-      <LineId Id="87" Count="0" />
-      <LineId Id="71" Count="0" />
-      <LineId Id="70" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>
