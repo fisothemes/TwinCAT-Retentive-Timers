@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LibraryCategories xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="LibraryCategories.xsd">
+    <LibraryCategory>
+        <Id>5df2df86-2142-4224-b358-21a532087d2f</Id>
+        <Version>1.0.0.0</Version>
+        <DefaultName>FisoThemesRuntimevic</DefaultName>
+    </LibraryCategory>
+    <LibraryCategory>
+        <Id>70325151-8e67-4486-ae1e-bd90ed47b600</Id>
+        <Version>1.0.0.0</Version>
+        <ParentCategory>
+            <Id>5df2df86-2142-4224-b358-21a532087d2f</Id>
+        </ParentCategory>
+        <DefaultName>Timers</DefaultName>
+    </LibraryCategory>
+</LibraryCategories>

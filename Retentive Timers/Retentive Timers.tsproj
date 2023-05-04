@@ -12,6 +12,9 @@
 				<Task Id="4" Priority="21" CycleTime="100000" AmsPort="351" AdtTasks="true">
 					<Name>PlcTask1</Name>
 				</Task>
+				<Task Id="5" Priority="22" CycleTime="100000" AmsPort="352" AdtTasks="true">
+					<Name>PlcTask2</Name>
+				</Task>
 			</Tasks>
 		</System>
 		<Plc>
@@ -53,6 +56,18 @@
 					<TaskPouOids>
 						<TaskPouOid Prio="21" OTCID="#x08502041"/>
 					</TaskPouOids>
+				</Instance>
+			</Project>
+			<Project GUID="{DE752FC0-9B2D-4AB0-AE95-50EF01C8043F}" Name="RetentiveTimerUnitTest" PrjFilePath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.plcproj" TmcFilePath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.tmc" ReloadTmc="true" AmsPort="853" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2">
+					<Name>RetentiveTimerUnitTest Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Contexts>
+						<Context>
+							<Id>1</Id>
+							<Name>Default</Name>
+						</Context>
+					</Contexts>
 				</Instance>
 			</Project>
 		</Plc>

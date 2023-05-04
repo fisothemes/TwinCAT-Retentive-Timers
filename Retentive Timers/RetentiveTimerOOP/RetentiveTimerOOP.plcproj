@@ -31,6 +31,24 @@ Retentive variants of the Standard library timers stop this from happen. They ar
 This means they will simply stop counting when the PLC Task Cycle is stopped and will resume from where they left-off as soon as the task cycle picks up.
 All arguments behave in the same manner as those of the standard library. </Description>
     <DocFormat>reStructuredText</DocFormat>
+    <LibraryCategories>
+      <LibraryCategory xmlns="">
+        <Id>{5df2df86-2142-4224-b358-21a532087d2f}</Id>
+        <Version>1.0.0.0</Version>
+        <DefaultName>FisoThemesRuntimevic</DefaultName>
+      </LibraryCategory>
+      <LibraryCategory xmlns="">
+        <Id>{70325151-8e67-4486-ae1e-bd90ed47b600}</Id>
+        <Version>1.0.0.0</Version>
+        <ParentCategory>
+          <Id>{5df2df86-2142-4224-b358-21a532087d2f}</Id>
+        </ParentCategory>
+        <DefaultName>Timers</DefaultName>
+      </LibraryCategory>
+    </LibraryCategories>
+    <SelectedLibraryCategories>
+      <Id xmlns="">{70325151-8e67-4486-ae1e-bd90ed47b600}</Id>
+    </SelectedLibraryCategories>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DUTs\E_Timer_Type.TcDUT">
