@@ -11,8 +11,7 @@ VAR
 	fbStopwatch			: Timer(E_timer_type.Stopwatch);
 	fbTimer				: Timer(E_timer_type.Timer);
 	
-	i_Start		    : I_Start;
-	i_Pause		    : I_Pause;
+	i_Input		    : I_Input;
 	counter			: INT;
 	
 	eStep                : (Initialization,Start_RStopwatch,RStopwatch,RTimer,RTOF,RTON,Start_RTP,RTP,Start_Stopwatch,Stopwatch,Timer);
@@ -34,7 +33,6 @@ fbRTON.tPreSet(T#3S);             	// use of Method.
 fbRTP.Setting.tPreSet := T#3S; 		// use of Property.
 fbTimer.Setting.tPreSet := T#3S; 	// use of Property.
 //*******************************
-
 
 CASE eStep OF
 	
@@ -78,9 +76,9 @@ CASE eStep OF
 		END_IF
 		
 	RTON:
-		i_Start := fbRTON ; 	// use of Polymorphism.
+		i_Input := fbRTON ; 	// use of Polymorphism.
 		// Example Polymorphism with Fluid Interface.
-		IF i_Start.Start(TRUE).Done THEN 
+		IF i_Input.Start(TRUE).Done THEN 
 			fbRTON.Start(FALSE);
 			eStep:= Start_RTP;
 		END_IF	
@@ -96,31 +94,30 @@ CASE eStep OF
 		END_IF
 								
 	Start_Stopwatch:
-		i_Start := fbRStopwatch ; 	// use of Polymorphism.
-		i_Start.Start(TRUE);
+		i_Input := fbRStopwatch ; 	// use of Polymorphism.
+		i_Input.Start(TRUE);
 		eStep:= Stopwatch;
 	
 	Stopwatch: 	
 	   // Example Polymorphism with Fluid Interface.
-	 	IF i_Start.Start(TRUE).tElapsed > T#3S THEN
-			i_Start.Start(FALSE);
+	 	IF i_Input.Start(TRUE).tElapsed > T#3S THEN
+			i_Input.Start(FALSE);
 			eStep:= Timer;
 		END_IF
 		
 	Timer:
-		i_Start := fbTimer ; 	// use of Polymorphism.
-		i_Pause := fbTimer ; 	// use of Polymorphism.
-		IF i_Start.Start(TRUE).tElapsed > T#1S AND counter < 1000 THEN
-		     i_Pause.Pause(TRUE);
+		i_Input := fbTimer ; 	// use of Polymorphism.
+		IF i_Input.Start(TRUE).tElapsed > T#1S AND counter < 1000 THEN
+		     i_Input.Pause(TRUE);
 			 counter := counter + 1;
 		END_IF
 		
-		IF i_Start.Start(TRUE).tElapsed > T#1S AND counter >= 1000 THEN
-		     i_Pause.Pause(FALSE);
+		IF i_Input.Start(TRUE).tElapsed > T#1S AND counter >= 1000 THEN
+		     i_Input.Pause(FALSE);
 		END_IF
 		
-		IF i_Start.Start(TRUE).Done THEN //// use of Polymorphism with fluid interface...
-			i_Start.Start(FALSE);
+		IF i_Input.Start(TRUE).Done THEN //// use of Polymorphism with fluid interface...
+			i_Input.Start(FALSE);
 			counter := 0;
 			eStep:= Initialization;
 		END_IF					

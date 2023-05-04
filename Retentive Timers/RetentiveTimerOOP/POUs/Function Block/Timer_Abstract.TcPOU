@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Timer_Abstract" Id="{16764f21-872a-4462-b20e-5c4063cdd38a}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT Timer_Abstract IMPLEMENTS I_Timer, I_Start, I_Pause, I_Output
+    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT Timer_Abstract IMPLEMENTS I_Timer, I_Input, I_Output
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -71,13 +71,15 @@ END_VAR
       </Get>
     </Property>
     <Method Name="Pause" Id="{ec8b8791-4806-4286-8bd8-cffcf1791270}">
-      <Declaration><![CDATA[METHOD Pause
+      <Declaration><![CDATA[METHOD Pause : I_Output
 VAR_INPUT
 	bPause 		:  BOOL; // Pause Timer (TRUE), Only Pauses if IN := TRUE.
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_Input.bPause := bPause;]]></ST>
+        <ST><![CDATA[_Input.bPause := bPause;
+
+Pause := THIS^;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Setting" Id="{b6984b6d-bfcd-4204-98b3-9eb2fc47202f}">
