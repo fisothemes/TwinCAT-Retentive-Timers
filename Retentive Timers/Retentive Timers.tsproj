@@ -36,7 +36,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{C815C559-3B3C-463F-80F5-443F6F671294}" Name="RetentiveTimerOOP" PrjFilePath="RetentiveTimerOOP\RetentiveTimerOOP.plcproj" TmcFilePath="RetentiveTimerOOP\RetentiveTimerOOP.tmc" ReloadTmc="true" AmsPort="852" TargetArchiveSettings="#x000f" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RetentiveTimerOOP\RetentiveTimerOOP.tmc" TmcHash="{607EA74F-48BC-79C1-8BF9-6F8551C592AC}">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RetentiveTimerOOP\RetentiveTimerOOP.tmc" TmcHash="{2861ED91-C3CE-3308-29A6-6184FB4988DF}">
 					<Name>RetentiveTimerOOP Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>

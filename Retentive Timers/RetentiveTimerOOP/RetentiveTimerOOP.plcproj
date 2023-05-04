@@ -18,7 +18,7 @@
     <Company>FisoThemes&amp;Runtimevic</Company>
     <Released>false</Released>
     <Title>Retentive Timers</Title>
-    <ProjectVersion>0.0.0.1</ProjectVersion>
+    <ProjectVersion>0.0.1.0</ProjectVersion>
     <DefaultNamespace>RTimers</DefaultNamespace>
     <Author>Goodwill Mzumala &amp; Victor Duran</Author>
     <Description>Standard library timers on TwinCAT count time by taking the difference between the current time from system timer and start time from system timer.
@@ -46,6 +46,15 @@ All arguments behave in the same manner as those of the standard library. </Desc
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\ST_Setting.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\I_Output.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\I_Pause.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\I_Start.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Interfaces\I_Timer.TcIO">

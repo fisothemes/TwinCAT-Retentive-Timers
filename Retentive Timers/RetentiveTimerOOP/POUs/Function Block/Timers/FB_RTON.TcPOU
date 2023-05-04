@@ -22,23 +22,9 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="Lerp" Id="{a3a7333b-ba73-41aa-81c0-c5fcc73c9675}">
-      <Declaration><![CDATA[// Linear interpolation (Lerp) - this method interpolates values between 2 time points.
-METHOD PRIVATE Lerp : TIME
-VAR_INPUT
-	tStart 	: TIME := T#0MS; 
-	tFinish : TIME;
-	fPercentage : REAL; // Value must be between 0 and 1
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Lerp(Start, Finish, Percentage) = Start + (Finish - Start)*Percentage
-Lerp := TO_TIME(TO_REAL(tStart) + TO_REAL(tFinish - tStart)*fPercentage);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Run" Id="{03266965-562d-4206-9849-a1be62eb6388}">
+    <Method Name="Cyclic" Id="{03266965-562d-4206-9849-a1be62eb6388}">
       <Declaration><![CDATA[
-METHOD Run
+METHOD Cyclic
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF SUPER^._Input.bStart THEN
@@ -53,6 +39,20 @@ METHOD Run
 	RETURN;
 	END_IF
 tAccumulator := SUPER^._Output.tElapsed := T#0MS; SUPER^._Output.bDone := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Lerp" Id="{a3a7333b-ba73-41aa-81c0-c5fcc73c9675}">
+      <Declaration><![CDATA[// Linear interpolation (Lerp) - this method interpolates values between 2 time points.
+METHOD PRIVATE Lerp : TIME
+VAR_INPUT
+	tStart 	: TIME := T#0MS; 
+	tFinish : TIME;
+	fPercentage : REAL; // Value must be between 0 and 1
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Lerp(Start, Finish, Percentage) = Start + (Finish - Start)*Percentage
+Lerp := TO_TIME(TO_REAL(tStart) + TO_REAL(tFinish - tStart)*fPercentage);]]></ST>
       </Implementation>
     </Method>
   </POU>

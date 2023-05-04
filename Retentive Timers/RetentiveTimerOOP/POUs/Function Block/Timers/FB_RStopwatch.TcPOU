@@ -19,9 +19,9 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="Run" Id="{d3cfce7d-da6a-45c2-9830-6399bebe471a}">
+    <Method Name="Cyclic" Id="{d3cfce7d-da6a-45c2-9830-6399bebe471a}">
       <Declaration><![CDATA[
-METHOD Run
+METHOD Cyclic
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF SUPER^._Input.bStart THEN stPLC_Task_Info := F_Get_PLC_Task_Information(); END_IF
@@ -30,7 +30,7 @@ METHOD Run
 //fbTON(bStart := SUPER^._Input.bStart AND NOT(fbTON.output.bDone));
 fbTON._Setting.tPreSet := stPLC_Task_Info.tCycleTime*2 + tAccumulator;
 fbTON._Input.bStart := SUPER^._Input.bStart AND NOT(fbTON.output.bDone);
-fbTON.Run();
+fbTON.Cyclic();
 
 tAccumulator := fbTON.Output.tElapsed; 
 

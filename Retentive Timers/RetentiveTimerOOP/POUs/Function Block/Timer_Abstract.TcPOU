@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Timer_Abstract" Id="{16764f21-872a-4462-b20e-5c4063cdd38a}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT Timer_Abstract IMPLEMENTS I_Timer
+    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT Timer_Abstract IMPLEMENTS I_Timer, I_Start, I_Pause, I_Output
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -15,10 +15,39 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="Cyclic" Id="{10b4d269-36ed-46c3-8ffe-df48d8149806}">
+      <Declaration><![CDATA[
+METHOD ABSTRACT Cyclic
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Done" Id="{755096fb-918a-409f-99da-d7ee15656ce0}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL]]></Declaration>
+      <Get Name="Get" Id="{18331f16-7141-4c42-950f-ea93134a23a8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _Output.bDone ;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="Input" Id="{ea075b2c-1a90-470d-a0b7-01d39144eb2a}">
       <Declaration><![CDATA[
 PROPERTY Input : REFERENCE TO ST_Input
 ]]></Declaration>
+      <Get Name="Get" Id="{2ddf6449-fc0d-488b-b2fb-1a4645752120}">
+        <Declaration><![CDATA[
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Input REF= THIS^._Input ;]]></ST>
+        </Implementation>
+      </Get>
       <Set Name="Set" Id="{323678a0-addf-419c-935f-8a249a8b1fb3}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -41,18 +70,29 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Method Name="Run" Id="{10b4d269-36ed-46c3-8ffe-df48d8149806}">
-      <Declaration><![CDATA[
-METHOD ABSTRACT Run
+    <Method Name="Pause" Id="{ec8b8791-4806-4286-8bd8-cffcf1791270}">
+      <Declaration><![CDATA[METHOD Pause
+VAR_INPUT
+	bPause 		:  BOOL; // Pause Timer (TRUE), Only Pauses if IN := TRUE.
+END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[_Input.bPause := bPause;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Setting" Id="{b6984b6d-bfcd-4204-98b3-9eb2fc47202f}">
       <Declaration><![CDATA[
 PROPERTY Setting : REFERENCE TO ST_Setting
 ]]></Declaration>
+      <Get Name="Get" Id="{6c33f88a-d75b-47d4-ae7d-13559a919285}">
+        <Declaration><![CDATA[
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Setting REF= THIS^._Setting ;]]></ST>
+        </Implementation>
+      </Get>
       <Set Name="Set" Id="{f3c93a8a-e125-444e-8bba-600f5e90645f}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -62,5 +102,39 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Method Name="Start" Id="{2af5a31c-59d5-499c-a1ce-9a0f7ea86c65}">
+      <Declaration><![CDATA[METHOD Start : I_Output
+VAR_INPUT
+	bStart 		: BOOL;  // Starts timer with rising edge, resets timer with falling edge.
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_Input.bStart := bStart;
+
+Start := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="tElapsed" Id="{d4953d5e-c9f3-40f0-9e7b-f6bc5c258ab6}">
+      <Declaration><![CDATA[PROPERTY tElapsed : TIME]]></Declaration>
+      <Get Name="Get" Id="{01545884-6740-4f52-91f9-42f4b2b54c2d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[tElapsed := _Output.tElapsed; // Elapsed time]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="tPreSet" Id="{3ea544b0-c763-4fbd-a049-0dfe991c9a68}">
+      <Declaration><![CDATA[METHOD tPreSet
+VAR_INPUT
+	tPreSet 	: TIME; // Time to pass, before Q is set	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_Setting.tPreSet := tPreSet;]]></ST>
+      </Implementation>
+    </Method>
   </POU>
 </TcPlcObject>

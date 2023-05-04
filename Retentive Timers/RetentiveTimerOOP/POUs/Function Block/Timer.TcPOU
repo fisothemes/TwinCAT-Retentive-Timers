@@ -14,27 +14,17 @@ VAR
 	FB_RTP          : FB_RTP;
 	FB_Stopwatch 	: FB_Stopwatch;
 	FB_Timer        : FB_Timer;
+	
+	pRStopwatch 	: POINTER TO FB_RStopwatch;
 
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[Run();]]></ST>
+      <ST><![CDATA[Cyclic();]]></ST>
     </Implementation>
-    <Method Name="FB_init" Id="{0508b393-a9dc-4e1e-9d90-bc2b9df5e271}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	eTimer      : E_Timer_Type;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[THIS^._eTimer := eTimer;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Run" Id="{03d698ce-840d-4dc9-8bc4-a41799f0593f}">
+    <Method Name="Cyclic" Id="{03d698ce-840d-4dc9-8bc4-a41799f0593f}">
       <Declaration><![CDATA[
-METHOD Run
+METHOD Cyclic
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[
@@ -42,6 +32,14 @@ CASE _eTimer OF
 	
 	E_Timer_Type.RStopwatch:
 		i_Timer   := FB_RStopwatch;
+//	    pRStopwatch:= __NEW(FB_RStopwatch);
+//		i_Timer   := pRStopwatch^;
+		
+//		//Release the memory
+//		IF (pRStopwatch <> 0) THEN
+//			__DELETE(pRStopwatch);
+//			pRStopwatch := 0;
+//		END_IF
 
 	E_Timer_Type.RTimer:
 		i_Timer   := FB_RTimer;
@@ -62,14 +60,29 @@ CASE _eTimer OF
 		i_Timer   := FB_Timer;		
 END_CASE
 
-i_Timer.Input   REF= SUPER^._Input;
-i_Timer.Setting REF= SUPER^._Setting;
-i_Timer.Run();
-SUPER^._Output := i_Timer.Output;
+IF i_Timer <> 0 THEN
+	i_Timer.Input   REF= SUPER^._Input;
+	i_Timer.Setting REF= SUPER^._Setting;
+	i_Timer.Cyclic();
+	SUPER^._Output := i_Timer.Output;
+END_IF
+
 
 
 
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{0508b393-a9dc-4e1e-9d90-bc2b9df5e271}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	eTimer      : E_Timer_Type;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^._eTimer := eTimer;]]></ST>
       </Implementation>
     </Method>
   </POU>

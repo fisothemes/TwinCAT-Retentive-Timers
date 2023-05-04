@@ -24,23 +24,9 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="Lerp" Id="{3d2926bd-5d0c-40ca-8a9a-c75a3db26f0f}">
-      <Declaration><![CDATA[// Linear interpolation (Lerp) - this method interpolates values between 2 time points.
-METHOD PRIVATE Lerp : TIME
-VAR_INPUT
-	tStart 	: TIME := T#0MS; 
-	tFinish : TIME;
-	fPercentage : REAL; // Value must be between 0 and 1
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Lerp(Start, Finish, Percentage) = Start + (Finish - Start)*Percentage
-Lerp := TO_TIME(TO_REAL(tStart) + TO_REAL(tFinish - tStart)*fPercentage);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Run" Id="{79aa2f6f-2ac8-408d-83be-94790a52bb9a}">
+    <Method Name="Cyclic" Id="{79aa2f6f-2ac8-408d-83be-94790a52bb9a}">
       <Declaration><![CDATA[
-METHOD Run
+METHOD Cyclic
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[LBL_TOP: 
@@ -58,6 +44,20 @@ CASE eState OF
 		nLast_Cycle_Count := stPLC_Task_Info.CycleCount;
 		IF SUPER^._Input.bStart THEN tAccumulator := SUPER^.Output.tElapsed := T#0MS;END_IF
 END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Lerp" Id="{3d2926bd-5d0c-40ca-8a9a-c75a3db26f0f}">
+      <Declaration><![CDATA[// Linear interpolation (Lerp) - this method interpolates values between 2 time points.
+METHOD PRIVATE Lerp : TIME
+VAR_INPUT
+	tStart 	: TIME := T#0MS; 
+	tFinish : TIME;
+	fPercentage : REAL; // Value must be between 0 and 1
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Lerp(Start, Finish, Percentage) = Start + (Finish - Start)*Percentage
+Lerp := TO_TIME(TO_REAL(tStart) + TO_REAL(tFinish - tStart)*fPercentage);]]></ST>
       </Implementation>
     </Method>
   </POU>

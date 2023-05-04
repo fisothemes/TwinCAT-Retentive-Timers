@@ -3,8 +3,18 @@
   <Itf Name="I_Timer" Id="{c1c088be-f360-4e82-9631-f29e4a6f9dcb}">
     <Declaration><![CDATA[INTERFACE I_Timer
 ]]></Declaration>
+    <Method Name="Cyclic" Id="{08ba81ea-83ed-47a5-bc9c-c0d88249effa}">
+      <Declaration><![CDATA[METHOD Cyclic
+
+]]></Declaration>
+    </Method>
     <Property Name="Input" Id="{30a681b4-13d2-46ce-90b2-2a29a995a827}">
       <Declaration><![CDATA[PROPERTY Input : REFERENCE TO ST_Input]]></Declaration>
+      <Get Name="Get" Id="{e77cc698-68d1-4f3a-a314-52dd7eada729}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+      </Get>
       <Set Name="Set" Id="{5661becf-92b6-462f-9c38-91adfe6eb094}">
         <Declaration><![CDATA[]]></Declaration>
       </Set>
@@ -15,13 +25,13 @@
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Method Name="Run" Id="{08ba81ea-83ed-47a5-bc9c-c0d88249effa}">
-      <Declaration><![CDATA[METHOD Run
-
-]]></Declaration>
-    </Method>
     <Property Name="Setting" Id="{72a2465f-006a-44f6-90e3-6c114dd71c8f}">
       <Declaration><![CDATA[PROPERTY Setting : REFERENCE TO ST_Setting]]></Declaration>
+      <Get Name="Get" Id="{3bb26a34-6c74-428d-a2b1-c5a68fda1c68}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+      </Get>
       <Set Name="Set" Id="{e40e6cae-f663-4d98-88d9-cf21a1218fb4}">
         <Declaration><![CDATA[]]></Declaration>
       </Set>

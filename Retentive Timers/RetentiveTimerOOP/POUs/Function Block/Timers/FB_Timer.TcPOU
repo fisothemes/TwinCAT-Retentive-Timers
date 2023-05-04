@@ -20,9 +20,9 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="Run" Id="{c7278cf2-7e16-4751-899a-850cbbf8796a}">
+    <Method Name="Cyclic" Id="{c7278cf2-7e16-4751-899a-850cbbf8796a}">
       <Declaration><![CDATA[
-METHOD Run
+METHOD Cyclic
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT(SUPER^._Input.bStart) THEN tPaused := SUPER^._Output.tElapsed := T#0MS; END_IF
