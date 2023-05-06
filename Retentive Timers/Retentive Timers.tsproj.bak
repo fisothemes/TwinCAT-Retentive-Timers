@@ -12,6 +12,9 @@
 				<Task Id="4" Priority="21" CycleTime="100000" AmsPort="351" AdtTasks="true">
 					<Name>PlcTask1</Name>
 				</Task>
+				<Task Id="5" Priority="22" CycleTime="100000" AmsPort="352" AdtTasks="true">
+					<Name>PlcTask2</Name>
+				</Task>
 			</Tasks>
 		</System>
 		<Plc>
@@ -36,7 +39,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{C815C559-3B3C-463F-80F5-443F6F671294}" Name="RetentiveTimerOOP" PrjFilePath="RetentiveTimerOOP\RetentiveTimerOOP.plcproj" TmcFilePath="RetentiveTimerOOP\RetentiveTimerOOP.tmc" ReloadTmc="true" AmsPort="852" TargetArchiveSettings="#x000f" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RetentiveTimerOOP\RetentiveTimerOOP.tmc" TmcHash="{2861ED91-C3CE-3308-29A6-6184FB4988DF}">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RetentiveTimerOOP\RetentiveTimerOOP.tmc" TmcHash="{6BB2650C-7CD1-E546-DA5C-CB77F9BAC3EA}">
 					<Name>RetentiveTimerOOP Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -53,6 +56,18 @@
 					<TaskPouOids>
 						<TaskPouOid Prio="21" OTCID="#x08502041"/>
 					</TaskPouOids>
+				</Instance>
+			</Project>
+			<Project GUID="{DE752FC0-9B2D-4AB0-AE95-50EF01C8043F}" Name="RetentiveTimerUnitTest" PrjFilePath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.plcproj" TmcFilePath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.tmc" ReloadTmc="true" AmsPort="853" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2">
+					<Name>RetentiveTimerUnitTest Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Contexts>
+						<Context>
+							<Id>1</Id>
+							<Name>Default</Name>
+						</Context>
+					</Contexts>
 				</Instance>
 			</Project>
 		</Plc>

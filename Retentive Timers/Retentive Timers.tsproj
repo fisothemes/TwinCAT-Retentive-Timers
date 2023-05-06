@@ -59,15 +59,23 @@
 				</Instance>
 			</Project>
 			<Project GUID="{DE752FC0-9B2D-4AB0-AE95-50EF01C8043F}" Name="RetentiveTimerUnitTest" PrjFilePath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.plcproj" TmcFilePath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.tmc" ReloadTmc="true" AmsPort="853" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2">
+				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.tmc" TmcHash="{C4ABB7F8-7033-BC6F-80AA-D627083EA25C}">
 					<Name>RetentiveTimerUnitTest Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
 						<Context>
-							<Id>1</Id>
-							<Name>Default</Name>
+							<Id NeedCalleeCall="true">0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010050</OTCID>
+							</ManualConfig>
+							<Priority>22</Priority>
+							<CycleTime>10000000</CycleTime>
 						</Context>
 					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="22" OTCID="#x08502081"/>
+					</TaskPouOids>
 				</Instance>
 			</Project>
 		</Plc>
