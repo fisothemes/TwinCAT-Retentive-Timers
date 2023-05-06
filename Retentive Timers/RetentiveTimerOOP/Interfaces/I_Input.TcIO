@@ -17,5 +17,17 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="StartTimer" Id="{a05f3310-647c-48ea-812b-1aa4bfff9e2e}">
+      <Declaration><![CDATA[METHOD StartTimer : I_Output
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="StopTimer" Id="{36bdef81-9090-4b12-b1e3-0d93056e4904}">
+      <Declaration><![CDATA[METHOD StopTimer : I_Output
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
   </Itf>
 </TcPlcObject>

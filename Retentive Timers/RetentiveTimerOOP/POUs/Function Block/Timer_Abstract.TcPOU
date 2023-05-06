@@ -118,6 +118,28 @@ END_VAR
 Start := THIS^;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="StartTimer" Id="{85ca3c21-04df-41de-ae72-7882a04cbaec}">
+      <Declaration><![CDATA[METHOD StartTimer : I_Output
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_Input.bStart := TRUE;
+
+StartTimer := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StopTimer" Id="{242b13ac-4c46-4a50-a811-a3d636164b87}">
+      <Declaration><![CDATA[METHOD StopTimer : I_Output
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_Input.bStart := FALSE;
+
+StopTimer := THIS^;]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="tElapsed" Id="{d4953d5e-c9f3-40f0-9e7b-f6bc5c258ab6}">
       <Declaration><![CDATA[PROPERTY tElapsed : TIME]]></Declaration>
       <Get Name="Get" Id="{01545884-6740-4f52-91f9-42f4b2b54c2d}">
