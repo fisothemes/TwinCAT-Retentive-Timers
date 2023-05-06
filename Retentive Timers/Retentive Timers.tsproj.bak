@@ -12,6 +12,9 @@
 				<Task Id="4" Priority="21" CycleTime="100000" AmsPort="351" AdtTasks="true">
 					<Name>PlcTask1</Name>
 				</Task>
+				<Task Id="5" Priority="22" CycleTime="100000" AmsPort="352" AdtTasks="true">
+					<Name>PlcTask2</Name>
+				</Task>
 			</Tasks>
 		</System>
 		<Plc>
@@ -36,7 +39,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{C815C559-3B3C-463F-80F5-443F6F671294}" Name="RetentiveTimerOOP" PrjFilePath="RetentiveTimerOOP\RetentiveTimerOOP.plcproj" TmcFilePath="RetentiveTimerOOP\RetentiveTimerOOP.tmc" ReloadTmc="true" AmsPort="852" TargetArchiveSettings="#x000f" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RetentiveTimerOOP\RetentiveTimerOOP.tmc" TmcHash="{BB7D67F4-9B1B-58E2-CCAA-6DD16560949E}">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RetentiveTimerOOP\RetentiveTimerOOP.tmc" TmcHash="{F14D119D-BF03-11C0-2E24-932E75E13810}">
 					<Name>RetentiveTimerOOP Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -52,6 +55,26 @@
 					</Contexts>
 					<TaskPouOids>
 						<TaskPouOid Prio="21" OTCID="#x08502041"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+			<Project GUID="{DE752FC0-9B2D-4AB0-AE95-50EF01C8043F}" Name="RetentiveTimerUnitTest" PrjFilePath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.plcproj" TmcFilePath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.tmc" ReloadTmc="true" AmsPort="853" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.tmc" TmcHash="{C4ABB7F8-7033-BC6F-80AA-D627083EA25C}">
+					<Name>RetentiveTimerUnitTest Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Contexts>
+						<Context>
+							<Id NeedCalleeCall="true">0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010050</OTCID>
+							</ManualConfig>
+							<Priority>22</Priority>
+							<CycleTime>10000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="22" OTCID="#x08502081"/>
 					</TaskPouOids>
 				</Instance>
 			</Project>

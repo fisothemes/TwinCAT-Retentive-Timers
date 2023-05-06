@@ -10,10 +10,119 @@ VAR
 	fbRTP				: Timer(E_timer_type.RTP);
 	fbStopwatch			: Timer(E_timer_type.Stopwatch);
 	fbTimer				: Timer(E_timer_type.Timer);
+	
+	i_Input		    : I_Input;
+	counter			: INT;
+	
+	eStep                : (Initialization,Start_RStopwatch,RStopwatch,RTimer,RTOF,RTON,Start_RTP,RTP,Start_Stopwatch,Stopwatch,Timer);
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
+      <ST><![CDATA[// ************** Runtimevic : Víctor Durán **********************************************
+// My repo GitHub OOP: https://github.com/runtimevic/OOP-IEC61131-3--Curso-Youtube
+// Docu repo: https://runtimevic.github.io/OOP-IEC61131-3--Curso-Youtube/es/
+// my PlayList OOP: https://www.youtube.com/playlist?list=PLEfi_hUmmSjFpfdJ6yw3B9yj7dWHYkHmQ
+// email : victorduranm@hotmail.com
+//*****************************************************************************************
+
+
+//Settings values tPreSet Timers:
+fbRTimer.Setting.tPreSet := T#3S; 	// use of Property.
+fbRTOF.tPreSet(T#3S);             	// use of Method.
+fbRTON.tPreSet(T#3S);             	// use of Method.
+fbRTP.Setting.tPreSet := T#3S; 		// use of Property.
+fbTimer.Setting.tPreSet := T#3S; 	// use of Property.
+//*******************************
+
+CASE eStep OF
+	
+	Initialization:
+	 //fbRStopwatch.Start(bStart:=FALSE);
+	  fbRStopwatch.Input.bStart := FALSE; 	// use of Property.
+	  fbRTimer.Start(FALSE);             	// use of Method.
+	  fbRTOF.Start(TRUE);	 				// use of Method.
+	  fbRTON.Start(FALSE);	 				// use of Method.
+	  fbRTP.Input.bStart := FALSE; 			// use of Property.
+	  fbStopwatch.Start(FALSE);             // use of Method.
+	  fbTimer.Start(FALSE);             	// use of Method.
+	  counter := 0;
+	  eStep:= Start_RStopwatch;
+	
+	Start_RStopwatch: 
+		 //fbRStopwatch.Start(bStart:=TRUE); 	// use of Method.
+		fbRStopwatch.Input.bStart := TRUE; 		// use of Property.
+ 		eStep:= RStopwatch;
+	  
+	RStopwatch:
+	    // Example Properties.
+		IF fbRStopwatch.Output.tElapsed > T#4S THEN
+			fbRStopwatch.Input.bStart := FALSE;
+			eStep:= RTimer;
+		END_IF
+
+	RTimer:	
+	    // Example Methods.
+		fbRTimer.Start(TRUE);
+		IF fbRTimer.Output.bDone THEN
+			fbRTimer.Start(FALSE);
+			eStep:= RTOF;
+		END_IF
+	
+	RTOF:
+	   // Example Fluid Interface : https://www.plccoder.com/fluent-code/			
+		IF NOT fbRTOF.Start(FALSE).Done THEN
+			fbRTOF.Start(TRUE);
+			eStep:= RTON;
+		END_IF
+		
+	RTON:
+		i_Input := fbRTON ; 	// use of Polymorphism.
+		// Example Polymorphism with Fluid Interface.
+		IF i_Input.Start(TRUE).Done THEN 
+			fbRTON.Start(FALSE);
+			eStep:= Start_RTP;
+		END_IF	
+	
+	Start_RTP:
+		fbRTP.Input.bStart := TRUE; 	// use of Property.
+		eStep:= RTP;
+		
+	RTP:
+		IF NOT fbRTP.Done THEN 		// use of Property.
+			fbRTP.Start(FALSE);  		// use of Methods.
+			eStep:= Start_Stopwatch;
+		END_IF
+								
+	Start_Stopwatch:
+		i_Input := fbRStopwatch ; 	// use of Polymorphism.
+		i_Input.Start(TRUE);
+		eStep:= Stopwatch;
+	
+	Stopwatch: 	
+	   // Example Polymorphism with Fluid Interface.
+	 	IF i_Input.Start(TRUE).tElapsed > T#3S THEN
+			i_Input.Start(FALSE);
+			eStep:= Timer;
+		END_IF
+		
+	Timer:
+		i_Input := fbTimer ; 	// use of Polymorphism.
+		IF i_Input.Start(TRUE).tElapsed > T#1S AND counter < 1000 THEN
+		     i_Input.Pause(TRUE);
+			 counter := counter + 1;
+		END_IF
+		
+		IF i_Input.Start(TRUE).tElapsed > T#1S AND counter >= 1000 THEN
+		     i_Input.Pause(FALSE);
+		END_IF
+		
+		IF i_Input.Start(TRUE).Done THEN //// use of Polymorphism with fluid interface...
+			i_Input.Start(FALSE);
+			counter := 0;
+			eStep:= Initialization;
+		END_IF					
+END_CASE
+
 fbRStopwatch();
 fbRTimer();
 fbRTOF();

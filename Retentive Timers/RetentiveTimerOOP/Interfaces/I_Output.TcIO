@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_Output" Id="{0992bfa9-907b-4ab7-9202-13312cae2bd4}">
+    <Declaration><![CDATA[INTERFACE I_Output
+]]></Declaration>
+    <Property Name="Done" Id="{ba69cec8-2fce-411e-84f4-78c9daef0bf4}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL]]></Declaration>
+      <Get Name="Get" Id="{4419510c-67cf-4325-beab-d7aa3e78b8d7}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="tElapsed" Id="{a418a3e8-9ae9-4386-ac6a-f7fefd3d9d4f}">
+      <Declaration><![CDATA[PROPERTY tElapsed : TIME]]></Declaration>
+      <Get Name="Get" Id="{2ddfb12c-6385-4cec-84bd-d28f4ae843bb}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

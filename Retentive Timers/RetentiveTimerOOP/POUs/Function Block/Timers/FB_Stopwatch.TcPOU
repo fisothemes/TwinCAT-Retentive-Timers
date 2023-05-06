@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_Stopwatch" Id="{4eacc48a-bf07-4fd0-8e38-8bbfaf7d4324}" SpecialFunc="None">
-    <Declaration><![CDATA[
+    <Declaration><![CDATA[{attribute 'enable_dynamic_creation'}
 FUNCTION_BLOCK INTERNAL FB_Stopwatch EXTENDS Timer_Abstract
 //VAR_INPUT
 //	bStart 			: BOOL;
@@ -18,9 +18,9 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="Run" Id="{b77eea84-24bc-42b1-9025-3388e5b6a3a3}">
+    <Method Name="Cyclic" Id="{b77eea84-24bc-42b1-9025-3388e5b6a3a3}">
       <Declaration><![CDATA[
-METHOD Run
+METHOD Cyclic
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF SUPER^._Input.bStart THEN stPLC_Task_Info := F_Get_PLC_Task_Information(); END_IF

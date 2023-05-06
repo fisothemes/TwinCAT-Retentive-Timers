@@ -4,6 +4,7 @@
     <Declaration><![CDATA[(* Retentive Pulse Timer - implements a pulse time that persists if PLC cycle is stopped. 
 when the input becomes TRUE, the elapsed time ET will run for the set time PT and the output Q will becomes TRUE.  
 *)
+{attribute 'enable_dynamic_creation'}
 FUNCTION_BLOCK INTERNAL FB_RTP EXTENDS Timer_Abstract
 //VAR_INPUT
 //	bStart      		: BOOL; // Trigger for Start of the Signal
@@ -23,23 +24,9 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="Lerp" Id="{3b47d42a-89b4-4dea-b4b8-a97e016fd39d}">
-      <Declaration><![CDATA[// Linear interpolation (Lerp) - this method interpolates values between 2 time points.
-METHOD PRIVATE Lerp : TIME
-VAR_INPUT
-	tStart 	: TIME := T#0MS; 
-	tFinish : TIME;
-	fPercentage : REAL; // Value must be between 0 and 1
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Lerp(Start, Finish, Percentage) = Start + (Finish - Start)*Percentage
-Lerp := TO_TIME(TO_REAL(tStart) + TO_REAL(tFinish - tStart)*fPercentage);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Run" Id="{926701c8-8a4b-4d5c-ac2b-f1d14bdf0c6a}">
+    <Method Name="Cyclic" Id="{926701c8-8a4b-4d5c-ac2b-f1d14bdf0c6a}">
       <Declaration><![CDATA[
-METHOD Run
+METHOD Cyclic
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[LBL_TOP:
@@ -58,6 +45,20 @@ CASE eState OF
 		SUPER^._Output.tElapsed := LIMIT(T#0MS, THIS^.Lerp(T#0MS, SUPER^._Setting.tPreSet, TO_REAL(tAccumulator)/TO_REAL(SUPER^._Setting.tPreSet))-stPLC_Task_Info.tCycleTime, SUPER^._Setting.tPreSet);
 		nLast_Cycle_Count := stPLC_Task_Info.CycleCount;	
 END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Lerp" Id="{3b47d42a-89b4-4dea-b4b8-a97e016fd39d}">
+      <Declaration><![CDATA[// Linear interpolation (Lerp) - this method interpolates values between 2 time points.
+METHOD PRIVATE Lerp : TIME
+VAR_INPUT
+	tStart 	: TIME := T#0MS; 
+	tFinish : TIME;
+	fPercentage : REAL; // Value must be between 0 and 1
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Lerp(Start, Finish, Percentage) = Start + (Finish - Start)*Percentage
+Lerp := TO_TIME(TO_REAL(tStart) + TO_REAL(tFinish - tStart)*fPercentage);]]></ST>
       </Implementation>
     </Method>
   </POU>

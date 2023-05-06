@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_Input" Id="{1df94bf4-5590-48f5-97b2-bce8c32c17ba}">
+    <Declaration><![CDATA[INTERFACE I_Input
+]]></Declaration>
+    <Method Name="Pause" Id="{bb623033-c04f-44ec-b93a-dec8f1de4c22}">
+      <Declaration><![CDATA[METHOD Pause : I_Output
+VAR_INPUT
+	bPause 		:  BOOL; // Pause Timer (TRUE), Only Pauses if IN := TRUE.
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="Start" Id="{85832a66-a4f9-4ebb-a085-bf5e6ddc16eb}">
+      <Declaration><![CDATA[METHOD Start : I_Output
+VAR_INPUT
+	bStart 		: BOOL;  // Starts timer with rising edge, resets timer with falling edge.
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>
