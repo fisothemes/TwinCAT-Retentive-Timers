@@ -4,6 +4,7 @@
     <Declaration><![CDATA[(* Retentive Pulse Timer - implements a pulse time that persists if PLC cycle is stopped. 
 when the input becomes TRUE, the elapsed time ET will run for the set time PT and the output Q will becomes TRUE.  
 *)
+{attribute 'enable_dynamic_creation'}
 FUNCTION_BLOCK INTERNAL FB_RTP EXTENDS Timer_Abstract
 //VAR_INPUT
 //	bStart      		: BOOL; // Trigger for Start of the Signal

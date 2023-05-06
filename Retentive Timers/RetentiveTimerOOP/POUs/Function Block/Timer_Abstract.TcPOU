@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="Timer_Abstract" Id="{16764f21-872a-4462-b20e-5c4063cdd38a}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT Timer_Abstract IMPLEMENTS I_Timer, I_Input, I_Output
+    <Declaration><![CDATA[{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK ABSTRACT Timer_Abstract IMPLEMENTS I_Timer, I_Input, I_Output
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
