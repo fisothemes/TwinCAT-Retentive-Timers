@@ -100,8 +100,8 @@ CASE eStep OF
 	
 	Stopwatch: 	
 	   // Example Polymorphism with Fluid Interface.
-	 	IF i_Input.Start(TRUE).tElapsed > T#3S THEN
-			i_Input.Start(FALSE);
+	 	IF i_Input.StartTimer().tElapsed > T#3S THEN
+			i_Input.StopTimer();
 			eStep:= Timer;
 		END_IF
 		
