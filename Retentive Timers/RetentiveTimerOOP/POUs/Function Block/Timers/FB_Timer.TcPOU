@@ -2,6 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_Timer" Id="{f33afc4c-6a33-4391-aba3-34417beb95d7}" SpecialFunc="None">
     <Declaration><![CDATA[// Pausable Timer Function Block
+{attribute 'enable_dynamic_creation'}
 FUNCTION_BLOCK INTERNAL FB_Timer EXTENDS Timer_Abstract
 //VAR_INPUT
 //    bStart 		: BOOL; // Start (TRUE) or Stop (FALSE) Timer 

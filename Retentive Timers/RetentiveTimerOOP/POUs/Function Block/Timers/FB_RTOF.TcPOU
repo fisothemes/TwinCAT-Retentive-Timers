@@ -4,7 +4,7 @@
     <Declaration><![CDATA[(* Retentive Timer Off-Delay - implements a timer-off delay that persists if PLC cycle is stopped. 
 When the input becomes FALSE after a TRUE, the elapsed time ET will run through until the output Q becomes TRUE. 
 *)
-//{attribute 'enable_dynamic_creation'}
+{attribute 'enable_dynamic_creation'}
 FUNCTION_BLOCK INTERNAL FB_RTOF EXTENDS Timer_Abstract
 //VAR_INPUT
 //	bStart 				: BOOL; // Starts timer with falling edge, resets timer with rising edge
