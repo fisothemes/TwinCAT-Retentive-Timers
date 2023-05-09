@@ -111,6 +111,9 @@ All arguments behave in the same manner as those of the standard library. </Desc
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\P_Example_1_TONs.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Project Information\F_GetCompany.TcPOU">
       <SubType>Code</SubType>
       <SystemCall>true</SystemCall>
