@@ -24,7 +24,7 @@ END_VAR
 // my PlayList OOP: https://www.youtube.com/playlist?list=PLEfi_hUmmSjFpfdJ6yw3B9yj7dWHYkHmQ
 // email : victorduranm@hotmail.com
 //*****************************************************************************************
-
+P_Example_1_TONs();
 
 //Settings values tPreSet Timers:
 fbRTimer.Setting.tPreSet := T#3S; 	// use of Property.

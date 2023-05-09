@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="P_Example_1_TONs" Id="{8f5a3a44-9bf4-4874-a6db-394e8666faeb}" SpecialFunc="None">
+  <POU Name="P_Example_1_TONs" Id="{2b73a315-0cad-48a2-8df4-ccb0dc96d414}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM P_Example_1_TONs
 VAR
 	bStart 				: BOOL; 
@@ -11,9 +11,12 @@ VAR
 	bElapsed_Time_RTON 	: BOOL; 
 	
 	fbTON 				: TON;
-	fbRTON 				: FB_RTON;
+//	fbRTON 				: FB_RTON;
 	stPLC_Task_Info : ST_PLC_TASK_INFORMATION;
 	nCC, nRCC 	: UDINT;
+	
+	i_Input		    	: I_Input;
+	fbRTON				: Timer(E_timer_type.RTON);
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -35,8 +38,15 @@ NOTES:
 fbTON(IN := bStart, PT := tSet_Time, 
 	  Q => bElapsed_Time_TON, ET => tElapsed_Time_TON);
 	  
-fbRTON(IN := bStart, PT := tSet_Time, 
-	  Q => bElapsed_Time_RTON, ET => tElapsed_Time_RTON);]]></ST>
+//fbRTON(IN := bStart, PT := tSet_Time, 
+//	  Q => bElapsed_Time_RTON, ET => tElapsed_Time_RTON);
+
+fbRTON.tPreSet(tSet_Time);             	// use of Method.	  
+i_Input := fbRTON ; 	// use of Polymorphism.
+i_Input.Start(bStart);
+bElapsed_Time_RTON := fbRTON.Output.bDone;
+tElapsed_Time_RTON := fbRTON.Output.tElapsed;
+fbRTON();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
