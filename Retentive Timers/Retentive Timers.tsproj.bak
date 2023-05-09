@@ -39,7 +39,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{C815C559-3B3C-463F-80F5-443F6F671294}" Name="RetentiveTimerOOP" PrjFilePath="RetentiveTimerOOP\RetentiveTimerOOP.plcproj" TmcFilePath="RetentiveTimerOOP\RetentiveTimerOOP.tmc" ReloadTmc="true" AmsPort="852" TargetArchiveSettings="#x000f" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RetentiveTimerOOP\RetentiveTimerOOP.tmc" TmcHash="{16B2E411-49CD-C111-9F82-6ED656739FE2}">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RetentiveTimerOOP\RetentiveTimerOOP.tmc" TmcHash="{20FCAFB9-EF88-F2FF-0835-302080B647D9}">
 					<Name>RetentiveTimerOOP Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -59,7 +59,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{DE752FC0-9B2D-4AB0-AE95-50EF01C8043F}" Name="RetentiveTimerUnitTest" PrjFilePath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.plcproj" TmcFilePath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.tmc" ReloadTmc="true" AmsPort="853" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.tmc" TmcHash="{C4ABB7F8-7033-BC6F-80AA-D627083EA25C}">
+				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RetentiveTimerUnitTest\RetentiveTimerUnitTest.tmc" TmcHash="{F99CDCF6-EF79-64C4-1AF8-7DF324183196}">
 					<Name>RetentiveTimerUnitTest Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
