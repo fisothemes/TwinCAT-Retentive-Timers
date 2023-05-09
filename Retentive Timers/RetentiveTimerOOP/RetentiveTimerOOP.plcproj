@@ -18,7 +18,7 @@
     <Company>FisoThemes&amp;Runtimevic</Company>
     <Released>false</Released>
     <Title>Retentive Timers</Title>
-    <ProjectVersion>0.0.1.0</ProjectVersion>
+    <ProjectVersion>0.0.1.1</ProjectVersion>
     <DefaultNamespace>RTimers</DefaultNamespace>
     <Author>Goodwill Mzumala &amp; Victor Duran</Author>
     <Description>Standard library timers on TwinCAT count time by taking the difference between the current time from system timer and start time from system timer.

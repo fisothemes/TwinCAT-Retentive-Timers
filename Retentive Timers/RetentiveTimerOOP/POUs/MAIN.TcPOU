@@ -11,10 +11,10 @@ VAR
 	fbStopwatch			: Timer(E_timer_type.Stopwatch);
 	fbTimer				: Timer(E_timer_type.Timer);
 	
-	i_Input		    : I_Input;
-	counter			: INT;
+	i_Input		    	: I_Input;
+	counter				: INT;
 	
-	eStep                : (Initialization,Start_RStopwatch,RStopwatch,RTimer,RTOF,RTON,Start_RTP,RTP,Start_Stopwatch,Stopwatch,Timer);
+	eStep              	: (Initialization,Start_RStopwatch,RStopwatch,RTimer,RTOF,RTON,Start_RTP,RTP,Start_Stopwatch,Stopwatch,Timer);
 END_VAR
 ]]></Declaration>
     <Implementation>

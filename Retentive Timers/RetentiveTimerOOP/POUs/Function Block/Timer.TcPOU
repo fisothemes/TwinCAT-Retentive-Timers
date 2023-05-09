@@ -5,16 +5,8 @@
 FUNCTION_BLOCK Timer EXTENDS Timer_Abstract
 VAR
 	_eTimer         : E_Timer_Type;
-	i_Timer			: I_Timer := 0;;
-	
-//	FB_RStopwatch 	: FB_RStopwatch;
-//	FB_RTimer       : FB_RTimer;
-//	FB_RTOF 		: FB_RTOF;
-//	FB_RTON         : FB_RTON;
-//	FB_RTP          : FB_RTP;
-//	FB_Stopwatch 	: FB_Stopwatch;
-//	FB_Timer        : FB_Timer;
-	
+	i_Timer			: I_Timer := 0;
+		
 	pRStopwatch 	: POINTER TO FB_RStopwatch;
 	pRTimer       	: POINTER TO FB_RTimer;
 	pRTOF 			: POINTER TO FB_RTOF;
@@ -33,38 +25,6 @@ METHOD Cyclic
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[
-//CASE _eTimer OF
-	
-//	E_Timer_Type.RStopwatch:
-//		i_Timer   := FB_RStopwatch;
-////	    pRStopwatch:= __NEW(FB_RStopwatch);
-////		i_Timer   := pRStopwatch^;
-		
-////		//Release the memory
-////		IF (pRStopwatch <> 0) THEN
-////			__DELETE(pRStopwatch);
-////			pRStopwatch := 0;
-////		END_IF
-
-//	E_Timer_Type.RTimer:
-//		i_Timer   := FB_RTimer;
-
-//	E_Timer_Type.RTOF:
-//		i_Timer   := FB_RTOF;
-
-//	E_Timer_Type.RTON:
-//		i_Timer   := FB_RTON;
-
-//	E_Timer_Type.RTP:
-//		i_Timer   := FB_RTP;
-
-//	E_Timer_Type.Stopwatch:
-//		i_Timer   := FB_Stopwatch;
-
-//	E_Timer_Type.Timer:
-//		i_Timer   := FB_Timer;		
-//END_CASE
-
 IF i_Timer <> 0 THEN
 	i_Timer.Input   REF= SUPER^._Input;
 	i_Timer.Setting REF= SUPER^._Setting;
@@ -125,49 +85,44 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	eTimer      : E_Timer_Type;
+	bInCopyCode  : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	eTimer       : E_Timer_Type;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^._eTimer := eTimer;
+        <ST><![CDATA[
+THIS^._eTimer := eTimer;
 
 CASE _eTimer OF
 	
 	E_Timer_Type.RStopwatch:
-//		i_Timer   := FB_RStopwatch;
 		pRStopwatch := __NEW(FB_RStopwatch);
 		i_Timer := pRStopwatch^;
 
 	E_Timer_Type.RTimer:
-//		i_Timer   := FB_RTimer;
 		pRTimer := __NEW(FB_RTimer);
 		i_Timer := pRTimer^;
 
 	E_Timer_Type.RTOF:
-//		i_Timer   := FB_RTOF;
 		pRTOF := __NEW(FB_RTOF);
 		i_Timer := pRTOF^;
 
 	E_Timer_Type.RTON:
-//		i_Timer   := FB_RTON;
 		pRTON := __NEW(FB_RTON);
 		i_Timer := pRTON^;
 
 	E_Timer_Type.RTP:
-//		i_Timer   := FB_RTP;
 		pRTP := __NEW(FB_RTP);
 		i_Timer := pRTP^;
 
 	E_Timer_Type.Stopwatch:
-//		i_Timer   := FB_Stopwatch;
 		pStopwatch := __NEW(FB_Stopwatch);
 		i_Timer := pStopwatch^;
 
 	E_Timer_Type.Timer:
-//		i_Timer   := FB_Timer;
 		pTimer := __NEW(FB_Timer);
-		i_Timer := pTimer^;	
+		i_Timer := pTimer^;
+		
 END_CASE]]></ST>
       </Implementation>
     </Method>
