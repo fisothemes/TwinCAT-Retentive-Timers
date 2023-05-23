@@ -102,6 +102,9 @@ All arguments behave in the same manner as those of the standard library. </Desc
     <Compile Include="POUs\Function Block\Timers\FB_Timer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Function Block\Timer_1.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Function Block\Timer_Abstract.TcPOU">
       <SubType>Code</SubType>
     </Compile>
