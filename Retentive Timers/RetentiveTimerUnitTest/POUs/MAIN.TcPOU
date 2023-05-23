@@ -5,10 +5,14 @@
 VAR
 	fbRStopwatch		: RTimers.Timer(E_timer_type.RStopwatch);
 	
+	fb_B : FB_B := (ppointer := __NEW(FB_A)); // try this instead
+	sum :INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbRStopwatch();]]></ST>
+      <ST><![CDATA[fbRStopwatch();
+
+fb_B(sum=>sum );]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

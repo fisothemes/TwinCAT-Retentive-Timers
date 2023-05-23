@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_A" Id="{44e90c3b-96dc-4e5b-9818-b1ed8f01a501}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK FB_A
+VAR
+	value : BOOL;
+	value2 : REAL := 42;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Sum" Id="{fdb674d3-65b4-453a-a482-05eccfc2ab42}">
+      <Declaration><![CDATA[METHOD Sum : INT
+VAR_INPUT
+	value1 : INT;
+	value2: INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Sum := value1 + value2;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

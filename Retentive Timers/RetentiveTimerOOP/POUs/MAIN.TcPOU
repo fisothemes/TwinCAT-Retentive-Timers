@@ -11,10 +11,12 @@ VAR
 	fbStopwatch			: Timer(E_timer_type.Stopwatch);
 	fbTimer				: Timer(E_timer_type.Timer);
 	
+	fbRTON_1            : Timer_1 := (pRTON := __NEW(FB_RTON));
+	
 	i_Input		    	: I_Input;
 	counter				: INT;
 	
-	eStep              	: (Initialization,Start_RStopwatch,RStopwatch,RTimer,RTOF,RTON,Start_RTP,RTP,Start_Stopwatch,Stopwatch,Timer);
+	eStep              	: (Initialization,Start_RStopwatch,RStopwatch,RTimer,RTOF,RTON,Start_RTP,RTP,Start_Stopwatch,Stopwatch,Timer, RTON_1);
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -32,6 +34,8 @@ fbRTOF.tPreSet(T#3S);             	// use of Method.
 fbRTON.tPreSet(T#3S);             	// use of Method.
 fbRTP.Setting.tPreSet := T#3S; 		// use of Property.
 fbTimer.Setting.tPreSet := T#3S; 	// use of Property.
+
+fbRTON_1.tPreSet(T#3S);             // use of Method.
 //*******************************
 
 CASE eStep OF
@@ -45,6 +49,9 @@ CASE eStep OF
 	  fbRTP.Input.bStart := FALSE; 			// use of Property.
 	  fbStopwatch.Start(FALSE);             // use of Method.
 	  fbTimer.Start(FALSE);             	// use of Method.
+	  
+	  fbRTON_1.Start(FALSE);	 			// use of Method.
+  
 	  counter := 0;
 	  eStep:= Start_RStopwatch;
 	
@@ -107,20 +114,29 @@ CASE eStep OF
 		
 	Timer:
 		i_Input := fbTimer ; 	// use of Polymorphism.
-		IF i_Input.Start(TRUE).tElapsed > T#1S AND counter < 1000 THEN
+		IF i_Input.Start(TRUE).tElapsed > T#1S AND counter < 500 THEN
 		     i_Input.Pause(TRUE);
 			 counter := counter + 1;
 		END_IF
 		
-		IF i_Input.Start(TRUE).tElapsed > T#1S AND counter >= 1000 THEN
+		IF i_Input.Start(TRUE).tElapsed > T#1S AND counter >= 500 THEN
 		     i_Input.Pause(FALSE);
 		END_IF
 		
 		IF i_Input.Start(TRUE).Done THEN //// use of Polymorphism with fluid interface...
 			i_Input.Start(FALSE);
 			counter := 0;
+			eStep:= RTON_1; //Initialization;
+		END_IF
+
+	RTON_1:
+		i_Input := fbRTON_1 ; 	// use of Polymorphism.
+		// Example Polymorphism with Fluid Interface.
+		IF i_Input.Start(TRUE).Done THEN 
+			fbRTON.Start(FALSE);
 			eStep:= Initialization;
-		END_IF					
+		END_IF	
+				
 END_CASE
 
 fbRStopwatch();
@@ -129,7 +145,8 @@ fbRTOF();
 fbRTON();
 fbRTP();
 fbStopwatch();
-fbTimer();]]></ST>
+fbTimer();
+fbRTON_1();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
